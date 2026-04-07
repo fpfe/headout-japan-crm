@@ -35,10 +35,23 @@ let cachedClient: sheets_v4.Sheets | null = null
 
 async function getSheets(): Promise<sheets_v4.Sheets> {
   if (cachedClient) return cachedClient
-  // Application Default Credentials — picks up ~/.config/gcloud/application_default_credentials.json in dev.
-  const auth = new google.auth.GoogleAuth({
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  })
+  const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
+  const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+  // In production (e.g. Vercel), use service-account env vars.
+  // In local dev, fall back to Application Default Credentials
+  // (~/.config/gcloud/application_default_credentials.json).
+  const auth =
+    email && key
+      ? new google.auth.GoogleAuth({
+          credentials: {
+            client_email: email,
+            private_key: key.replace(/\\n/g, '\n'),
+          },
+          scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+        })
+      : new google.auth.GoogleAuth({
+          scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+        })
   cachedClient = google.sheets({ version: 'v4', auth })
   return cachedClient
 }

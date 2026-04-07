@@ -9,6 +9,7 @@ function titleFor(pathname: string | null): string {
   if (pathname.startsWith('/pipeline')) return 'Sales Pipeline'
   if (pathname.startsWith('/dashboard')) return 'Dashboard'
   if (pathname.startsWith('/reports')) return 'Reports'
+  if (pathname.startsWith('/crm')) return 'Merchant CRM'
   return 'Kinetic CRM'
 }
 

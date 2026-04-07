@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Sidebar from '@/components/layout/Sidebar'
-import TopNav from '@/components/layout/TopNav'
+import AppShell from '@/components/layout/AppShell'
 
 export const metadata: Metadata = {
   title: 'Kinetic CRM',
@@ -24,13 +23,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen">
-        <div className="flex min-h-screen">
-          <Sidebar />
-          <div className="flex-1 ml-[220px] flex flex-col">
-            <TopNav />
-            <main className="flex-1 px-10 py-8">{children}</main>
-          </div>
-        </div>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   )

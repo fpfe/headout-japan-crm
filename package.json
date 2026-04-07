@@ -9,17 +9,22 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@auth/supabase-adapter": "^1.11.1",
     "@hello-pangea/dnd": "^18.0.1",
+    "@supabase/supabase-js": "^2.101.1",
     "@tanstack/react-table": "^8.21.3",
+    "bcryptjs": "^3.0.3",
     "googleapis": "^171.4.0",
     "material-symbols": "^0.44.0",
     "next": "16.2.2",
+    "next-auth": "^4.24.13",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

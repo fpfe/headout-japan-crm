@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 
 const NAV = [
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'Leads', href: '/leads' },
   { label: 'Members', href: '/members' },
-  { label: 'CRM', href: '#' },
+  { label: 'CRM', href: '/crm' },
   { label: 'Pipeline', href: '/pipeline' },
   { label: 'Reports', href: '/reports' },
 ]
@@ -67,6 +68,18 @@ export default function Sidebar() {
             {item.label}
           </Link>
         ))}
+        <button
+          onClick={() => signOut({ callbackUrl: '/login' })}
+          className="flex items-center gap-3 px-3 py-2 text-sm text-[#5b4137] hover:bg-white/50 rounded-lg w-full transition-colors"
+        >
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: 20 }}
+          >
+            logout
+          </span>
+          Sign out
+        </button>
       </div>
     </aside>
   )
