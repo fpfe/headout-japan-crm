@@ -38,6 +38,10 @@ async function getSheets(): Promise<sheets_v4.Sheets> {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
   const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
   const scopes = ['https://www.googleapis.com/auth/spreadsheets']
+  console.log(
+    '[sheets] private_key starts with:',
+    process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.substring(0, 30)
+  )
   // Production (Vercel): use env vars.
   // Local dev fallback: read service-account.json at project root.
   const auth =
@@ -45,7 +49,10 @@ async function getSheets(): Promise<sheets_v4.Sheets> {
       ? new google.auth.GoogleAuth({
           credentials: {
             client_email: email,
-            private_key: key.replace(/\\n/g, '\n'),
+            private_key: (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || '')
+              .replace(/\\\\n/g, '\n')
+              .replace(/\\n/g, '\n')
+              .trim(),
           },
           scopes,
         })
