@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const NAV = [
-  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Dashboard', href: '#' },
   { label: 'Leads', href: '/leads' },
   { label: 'Members', href: '/members' },
-  { label: 'CRM', href: '/crm' },
+  { label: 'CRM', href: '#' },
   { label: 'Pipeline', href: '/pipeline' },
-  { label: 'Reports', href: '/reports' },
+  { label: 'Reports', href: '#' },
 ]
 
 const FOOTER = [
@@ -35,10 +35,10 @@ export default function Sidebar() {
 
       <nav className="flex flex-col gap-1">
         {NAV.map((item) => {
-          const active = pathname?.startsWith(item.href)
+          const active = item.href !== '#' && pathname?.startsWith(item.href)
           return (
             <Link
-              key={item.href}
+              key={item.label}
               href={item.href}
               className={`relative px-4 py-2.5 text-sm font-medium rounded-md transition-colors ${
                 active

@@ -315,7 +315,7 @@ function AddModal({
               className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
             />
           </Field>
-          <Field label="Created By">
+          <Field label="Created by">
             <input
               value={createdBy}
               onChange={(e) => setCreatedBy(e.target.value)}
@@ -348,7 +348,7 @@ function AddModal({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <div className="text-[10px] uppercase tracking-wider font-bold text-gray-500 mb-1">
+      <div className="text-[12px] font-semibold text-gray-600 mb-1">
         {label}
       </div>
       {children}

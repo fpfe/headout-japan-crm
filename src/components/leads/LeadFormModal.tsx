@@ -31,6 +31,7 @@ const EMPTY_FORM = {
   assignedTo: '',
   status: 'New' as LeadStatus,
   notes: '',
+  dealValue: '',
 }
 
 const inputStyle: React.CSSProperties = {
@@ -90,7 +91,10 @@ export default function LeadFormModal({
         assignedTo: initial.assignedTo,
         status: initial.status,
         notes: initial.notes,
+        dealValue: initial.dealValue ?? '',
       })
+    } else if (initial) {
+      setForm({ ...EMPTY_FORM, ...initial } as typeof EMPTY_FORM)
     } else {
       setForm(EMPTY_FORM)
     }
@@ -176,7 +180,7 @@ export default function LeadFormModal({
 
         <form onSubmit={submit} className="flex flex-col gap-3">
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Contact Name">
+            <Field label="Contact name">
               <input
                 required
                 style={inputStyle}
@@ -200,7 +204,7 @@ export default function LeadFormModal({
                 onChange={(e) => update('phone', e.target.value)}
               />
             </Field>
-            <Field label="Company Name">
+            <Field label="Company name">
               <input
                 required
                 style={inputStyle}
@@ -208,7 +212,7 @@ export default function LeadFormModal({
                 onChange={(e) => update('company', e.target.value)}
               />
             </Field>
-            <Field label="Service Type">
+            <Field label="Service type">
               <select
                 style={inputStyle}
                 value={
@@ -231,7 +235,7 @@ export default function LeadFormModal({
                 <option value={ADD_NEW_VALUE}>+ Add new type…</option>
               </select>
             </Field>
-            <Field label="Lead Source">
+            <Field label="Lead source">
               <input
                 style={inputStyle}
                 placeholder="e.g. Direct Website"
@@ -247,7 +251,7 @@ export default function LeadFormModal({
                 onChange={(e) => update('region', e.target.value)}
               />
             </Field>
-            <Field label="Assigned To">
+            <Field label="Assigned to">
               <select
                 style={inputStyle}
                 value={
@@ -285,6 +289,15 @@ export default function LeadFormModal({
                   + Add new member…
                 </option>
               </select>
+            </Field>
+            <Field label="Deal value (¥)">
+              <input
+                type="number"
+                style={inputStyle}
+                placeholder="e.g. 3500000"
+                value={form.dealValue}
+                onChange={(e) => update('dealValue', e.target.value)}
+              />
             </Field>
             <Field label="Status">
               <select
@@ -359,7 +372,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+      <span className="text-[12px] font-semibold text-gray-600">
         {label}
       </span>
       {children}

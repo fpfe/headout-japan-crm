@@ -1,6 +1,20 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
+
+function titleFor(pathname: string | null): string {
+  if (!pathname) return 'Kinetic CRM'
+  if (/^\/leads\/[^/]+/.test(pathname)) return 'Merchant Profile'
+  if (pathname.startsWith('/leads')) return 'Lead Management'
+  if (pathname.startsWith('/pipeline')) return 'Sales Pipeline'
+  if (pathname.startsWith('/dashboard')) return 'Dashboard'
+  if (pathname.startsWith('/reports')) return 'Reports'
+  return 'Kinetic CRM'
+}
+
 export default function TopNav() {
+  const pathname = usePathname()
+  const title = titleFor(pathname)
   return (
     <header
       className="sticky top-0 z-20 h-[60px] flex items-center px-10 gap-6"
@@ -10,7 +24,7 @@ export default function TopNav() {
       }}
     >
       <div className="font-display font-bold text-[15px] text-[#181c23]">
-        Lead Management
+        {title}
       </div>
 
       <div className="flex-1 flex justify-center">

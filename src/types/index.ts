@@ -24,6 +24,7 @@ export type Lead = {
   region: string
   notes: string
   createdAt: string
+  dealValue: string
 }
 
 export const LEAD_STATUSES: LeadStatus[] = [

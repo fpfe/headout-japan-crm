@@ -6,8 +6,8 @@ import { DEFAULT_SERVICE_TYPES } from '@/types'
 const SHEET_NAME = 'Leads'
 const SERVICE_TYPES_TAB = 'ServiceTypes'
 const MEMBERS_TAB = 'Members'
-const RANGE = `${SHEET_NAME}!A2:L`
-const HEADER_RANGE = `${SHEET_NAME}!A1:L1`
+const RANGE = `${SHEET_NAME}!A2:M`
+const HEADER_RANGE = `${SHEET_NAME}!A1:M1`
 
 const COLUMNS: (keyof Lead)[] = [
   'id',
@@ -22,6 +22,7 @@ const COLUMNS: (keyof Lead)[] = [
   'region',
   'notes',
   'createdAt',
+  'dealValue',
 ]
 
 function spreadsheetId(): string {
@@ -114,13 +115,13 @@ export async function updateLead(
     if (rowNum === -1) return null
     const existing = await sheets.spreadsheets.values.get({
       spreadsheetId: spreadsheetId(),
-      range: `${SHEET_NAME}!A${rowNum}:L${rowNum}`,
+      range: `${SHEET_NAME}!A${rowNum}:M${rowNum}`,
     })
     const current = rowToLead(existing.data.values?.[0] ?? [])
     const merged: Lead = { ...current, ...patch, id }
     await sheets.spreadsheets.values.update({
       spreadsheetId: spreadsheetId(),
-      range: `${SHEET_NAME}!A${rowNum}:L${rowNum}`,
+      range: `${SHEET_NAME}!A${rowNum}:M${rowNum}`,
       valueInputOption: 'RAW',
       requestBody: { values: [leadToRow(merged)] },
     })
@@ -138,7 +139,7 @@ export async function deleteLead(id: string): Promise<boolean> {
     if (rowNum === -1) return false
     await sheets.spreadsheets.values.clear({
       spreadsheetId: spreadsheetId(),
-      range: `${SHEET_NAME}!A${rowNum}:L${rowNum}`,
+      range: `${SHEET_NAME}!A${rowNum}:M${rowNum}`,
     })
     return true
   } catch (err) {
