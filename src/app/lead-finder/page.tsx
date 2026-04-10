@@ -942,11 +942,18 @@ function EmailModal({
     setGenerating(true)
     setErr(null)
     setOutput(null)
-    const sys = `Write a cold outreach email for Seungjun Ahn, Head of BD Japan at Headout.
+    const sys = `You are writing a formal Japanese cold outreach email (keigo, first-contact appropriate) for Seungjun Ahn, Head of BD Japan at Headout.
 Headout is a global experience OTA connecting operators with European, American, and Middle Eastern tourists at zero upfront cost.
 Target: ${lead.name}, ${lead.city}. About them: ${lead.description ?? ''}.
 Why this company: ${u1}. Why Headout helps: ${u2}. Meeting dates: ${u3}. Other: ${u4}.
-Requirements: under 200 words, include Subject: line first, direct and respectful tone, end with "Seungjun Ahn | Head of BD Japan | Headout", no em dashes, plain text only.`
+Requirements:
+- Write entirely in Japanese (keigo/formal register).
+- Start with "件名:" line (subject line in Japanese).
+- Structure the body in this order: 自己紹介 / 連絡理由 / 提案要旨 / 日程候補 / 次のステップ.
+- Keep the body under 200 words in Japanese.
+- End with the sign-off exactly as: Seungjun Ahn | Head of BD Japan | Headout (in English).
+- After the email, add a line "---" then generate a short LINE message version in Japanese (3-4 sentences max, polite but concise).
+- No em dashes. Plain text only.`
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
