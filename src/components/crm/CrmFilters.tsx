@@ -26,7 +26,7 @@ type Props = {
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative inline-flex items-center bg-white border border-[#e5e8f3] rounded-lg pl-3 pr-8 py-2 text-[13px] text-[#181c23]">
+    <div className="relative inline-flex items-center bg-white border border-[#e5e8f3] rounded-none pl-3 pr-8 py-2 text-[13px] text-[#181c23]">
       {children}
       <span
         className="material-symbols-outlined absolute right-2 pointer-events-none text-[#5b4137]"
@@ -97,7 +97,7 @@ export default function CrmFilters({
         </Pill>
 
         <div
-          className="relative inline-flex items-center bg-white border border-[#e5e8f3] rounded-lg pl-9 pr-3 py-2 text-[13px]"
+          className="relative inline-flex items-center bg-white border border-[#e5e8f3] rounded-none pl-9 pr-3 py-2 text-[13px]"
           style={{ minWidth: 200 }}
         >
           <span

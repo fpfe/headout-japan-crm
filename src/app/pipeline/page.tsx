@@ -49,7 +49,7 @@ export default function PipelinePage() {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            className="inline-flex items-center gap-2 bg-white text-[13px] font-semibold text-[#181c23] px-5 py-2.5 rounded-full"
+            className="inline-flex items-center gap-2 bg-white text-[13px] font-semibold text-[#181c23] px-5 py-2.5 rounded-none"
             style={{ border: '1px solid #e5e8f3' }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -62,7 +62,7 @@ export default function PipelinePage() {
           <button
             type="button"
             onClick={() => openModal(null)}
-            className="brand-gradient text-white text-[13px] font-semibold px-5 py-2.5 rounded-full"
+            className="brand-gradient text-white text-[13px] font-semibold px-5 py-2.5 rounded-none"
             style={{
               background: 'linear-gradient(135deg, #a83900 0%, #ff5a00 100%)',
             }}

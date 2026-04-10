@@ -177,15 +177,15 @@ export default function LeadsPage() {
           </h1>
         </div>
         <div className="flex items-center gap-3 pt-2 flex-wrap justify-end">
-          <span className="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-[12px] font-bold tracking-wider">
+          <span className="px-4 py-2 rounded-none bg-gray-100 text-gray-700 text-[12px] font-bold tracking-wider">
             {activeCount} ACTIVE LEADS
           </span>
-          <span className="px-4 py-2 rounded-full brand-gradient text-white text-[12px] font-bold tracking-wider">
+          <span className="px-4 py-2 rounded-none brand-gradient text-white text-[12px] font-bold tracking-wider">
             {hotCount} HOT MOMENTUM
           </span>
           <button
             onClick={openCreate}
-            className="brand-gradient text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-sm hover:opacity-95 transition"
+            className="brand-gradient text-white text-sm font-semibold px-5 py-2.5 rounded-none shadow-sm hover:opacity-95 transition"
           >
             + New Merchant
           </button>
@@ -208,7 +208,7 @@ export default function LeadsPage() {
       />
 
       {error && (
-        <div className="mb-4 px-4 py-3 rounded-md bg-red-50 text-red-700 text-sm">
+        <div className="mb-4 px-4 py-3 rounded-none bg-red-50 text-red-700 text-sm">
           {error}
         </div>
       )}

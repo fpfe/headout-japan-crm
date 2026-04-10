@@ -21,7 +21,7 @@ function TrendBadge({
   }
   return (
     <span
-      className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-wider ${styles[tone]}`}
+      className={`px-3 py-1 rounded-none text-[11px] font-bold tracking-wider ${styles[tone]}`}
     >
       {label}
     </span>
@@ -46,9 +46,9 @@ export default function KpiCards({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {/* Card 1 */}
-      <div className="bg-white rounded-[2rem] p-8 relative overflow-hidden">
+      <div className="bg-white rounded-none p-8 relative overflow-hidden">
         <div className="flex items-start justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-[#a83900]/5 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-none bg-[#a83900]/5 flex items-center justify-center">
             <span
               className="material-symbols-outlined text-[#a83900]"
               style={{ fontSize: 24 }}
@@ -82,9 +82,9 @@ export default function KpiCards({
       </div>
 
       {/* Card 2 */}
-      <div className="bg-white rounded-[2rem] p-8 relative overflow-hidden border-l-4 border-[#e4006d]">
+      <div className="bg-white rounded-none p-8 relative overflow-hidden">
         <div className="flex items-start justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-[#b60056]/5 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-none bg-[#b60056]/5 flex items-center justify-center">
             <span
               className="material-symbols-outlined text-[#b60056]"
               style={{ fontSize: 24 }}
@@ -113,9 +113,9 @@ export default function KpiCards({
       </div>
 
       {/* Card 3 */}
-      <div className="bg-white rounded-[2rem] p-8 relative overflow-hidden">
+      <div className="bg-white rounded-none p-8 relative overflow-hidden">
         <div className="flex items-start justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-[#685588]/5 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-none bg-[#685588]/5 flex items-center justify-center">
             <span
               className="material-symbols-outlined text-[#685588]"
               style={{ fontSize: 24 }}

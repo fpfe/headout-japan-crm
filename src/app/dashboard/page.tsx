@@ -212,7 +212,7 @@ export default function DashboardPage() {
               type="button"
               disabled={generating}
               onClick={() => setMenuOpen((o) => !o)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#a83900]/30 text-[#a83900] text-sm font-semibold hover:bg-[#a83900]/5 transition disabled:opacity-60 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none border border-[#a83900]/30 text-[#a83900] text-sm font-semibold hover:bg-[#a83900]/5 transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span
                 className="material-symbols-outlined"
@@ -244,7 +244,7 @@ export default function DashboardPage() {
               >
                 <div
                   onClick={handlePDF}
-                  className="hover:bg-[#f1f3fe] rounded-lg flex items-center gap-2"
+                  className="hover:bg-[#f1f3fe] rounded-none flex items-center gap-2"
                   style={{
                     padding: '10px 12px',
                     cursor: 'pointer',
@@ -262,7 +262,7 @@ export default function DashboardPage() {
                 </div>
                 <div
                   onClick={handleCSV}
-                  className="hover:bg-[#f1f3fe] rounded-lg flex items-center gap-2"
+                  className="hover:bg-[#f1f3fe] rounded-none flex items-center gap-2"
                   style={{
                     padding: '10px 12px',
                     cursor: 'pointer',
@@ -284,7 +284,7 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={() => setFormOpen(true)}
-            className="inline-flex items-center gap-2 brand-gradient text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-sm hover:opacity-95 transition"
+            className="inline-flex items-center gap-2 brand-gradient text-white text-sm font-bold px-5 py-2.5 rounded-none shadow-sm hover:opacity-95 transition"
           >
             <span
               className="material-symbols-outlined"
@@ -298,7 +298,7 @@ export default function DashboardPage() {
       </div>
 
       {error && (
-        <div className="mb-6 px-4 py-3 rounded-md bg-red-50 text-red-700 text-sm">
+        <div className="mb-6 px-4 py-3 rounded-none bg-red-50 text-red-700 text-sm">
           {error}
         </div>
       )}
@@ -309,13 +309,13 @@ export default function DashboardPage() {
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="h-[200px] rounded-[2rem] bg-gray-200 animate-pulse"
+                className="h-[200px] rounded-none bg-gray-200 animate-pulse"
               />
             ))}
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <div className="h-[520px] rounded-[2.5rem] bg-gray-200 animate-pulse xl:col-span-2" />
-            <div className="h-[520px] rounded-[2.5rem] bg-gray-200 animate-pulse" />
+            <div className="h-[520px] rounded-none bg-gray-200 animate-pulse xl:col-span-2" />
+            <div className="h-[520px] rounded-none bg-gray-200 animate-pulse" />
           </div>
         </div>
       ) : (

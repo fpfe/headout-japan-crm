@@ -45,11 +45,11 @@ export default function MerchantProfile({ lead }: { lead: Lead }) {
         <div className="flex items-start justify-between gap-8">
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-4">
-              <span className="px-3 py-1 rounded-full bg-[#ece6f4] text-[#685588] text-[10px] font-bold uppercase tracking-wider">
+              <span className="px-3 py-1 rounded-none bg-[#ece6f4] text-[#685588] text-[10px] font-bold uppercase tracking-wider">
                 {lead.region || '—'}
               </span>
               {isHot && (
-                <span className="px-3 py-1 rounded-full bg-[#e4006d] text-white text-[10px] font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-none bg-[#e4006d] text-white text-[10px] font-bold uppercase tracking-wider">
                   Hot Lead
                 </span>
               )}
@@ -84,8 +84,8 @@ export default function MerchantProfile({ lead }: { lead: Lead }) {
             </div>
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-[#a83900] opacity-60 animate-ping" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#a83900]" />
+                <span className="absolute inline-flex h-full w-full rounded-none bg-[#a83900] opacity-60 animate-ping" />
+                <span className="relative inline-flex rounded-none h-2 w-2 bg-[#a83900]" />
               </span>
               <span className="text-[18px] font-bold text-[#a83900]">
                 {status}
@@ -96,7 +96,7 @@ export default function MerchantProfile({ lead }: { lead: Lead }) {
                 type="button"
                 onClick={() => setStatusOpen((v) => !v)}
                 disabled={saving}
-                className="brand-gradient text-white text-[13px] font-bold px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover:opacity-95 transition disabled:opacity-60"
+                className="brand-gradient text-white text-[13px] font-bold px-5 py-2.5 rounded-none inline-flex items-center gap-2 hover:opacity-95 transition disabled:opacity-60"
                 style={{
                   background:
                     'linear-gradient(135deg, #a83900 0%, #ff5a00 100%)',
@@ -109,7 +109,7 @@ export default function MerchantProfile({ lead }: { lead: Lead }) {
               </button>
               {statusOpen && (
                 <div
-                  className="absolute right-0 top-full mt-2 z-30 w-52 bg-white rounded-2xl py-2"
+                  className="absolute right-0 top-full mt-2 z-30 w-52 bg-white rounded-none py-2"
                   style={{ boxShadow: '0 12px 32px rgba(15,15,30,0.14)' }}
                 >
                   {LEAD_STATUSES.map((s) => (

@@ -19,7 +19,7 @@ export default function ViewLeadModal({ open, lead, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg w-full max-w-[520px] max-h-[90vh] overflow-y-auto p-7"
+        className="bg-white rounded-none w-full max-w-[520px] max-h-[90vh] overflow-y-auto p-7"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-5 flex items-start justify-between">
@@ -58,7 +58,7 @@ export default function ViewLeadModal({ open, lead, onClose }: Props) {
             <div className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-1">
               Notes
             </div>
-            <div className="text-[13px] text-[#181c23] bg-[#ebedf8] rounded-md p-3 whitespace-pre-wrap">
+            <div className="text-[13px] text-[#181c23] bg-[#ebedf8] rounded-none p-3 whitespace-pre-wrap">
               {lead.notes}
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function ViewLeadModal({ open, lead, onClose }: Props) {
         <div className="flex justify-end mt-6">
           <button
             onClick={onClose}
-            className="brand-gradient text-white text-sm font-semibold px-6 py-2.5 rounded-full"
+            className="brand-gradient text-white text-sm font-semibold px-6 py-2.5 rounded-none"
           >
             Close
           </button>

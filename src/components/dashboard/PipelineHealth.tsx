@@ -38,7 +38,7 @@ export default function PipelineHealth({ stageCounts }: Props) {
     stageCounts.Negotiation
 
   return (
-    <div className="bg-[#f1f3fe] rounded-[2.5rem] p-8 xl:col-span-2">
+    <div className="bg-[#f1f3fe] rounded-none p-8 xl:col-span-2">
       <div className="flex items-center justify-between mb-8">
         <h2
           className="font-display font-bold text-[#181c23]"
@@ -46,7 +46,7 @@ export default function PipelineHealth({ stageCounts }: Props) {
         >
           Pipeline Health
         </h2>
-        <span className="px-4 py-1.5 rounded-full bg-white text-[#a83900] text-[12px] font-bold tracking-wider">
+        <span className="px-4 py-1.5 rounded-none bg-white text-[#a83900] text-[12px] font-bold tracking-wider">
           Active: {active} Deals
         </span>
       </div>
@@ -63,11 +63,11 @@ export default function PipelineHealth({ stageCounts }: Props) {
                 </span>
               </div>
               <div
-                className="bg-[#dfe2ed] rounded-2xl overflow-hidden"
+                className="bg-[#dfe2ed] rounded-none overflow-hidden"
                 style={{ height: 32 }}
               >
                 <div
-                  className={`${s.fill} h-full rounded-2xl transition-all flex items-center`}
+                  className={`${s.fill} h-full rounded-none transition-all flex items-center`}
                   style={{ width: `${Math.max(pct, 4)}%` }}
                 >
                   {count > 0 && (

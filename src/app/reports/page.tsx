@@ -172,7 +172,7 @@ export default function ReportsPage() {
         <button
           type="button"
           onClick={() => exportCSV(filtered)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-full border border-[#a83900]/30 text-[#a83900] text-sm font-semibold hover:bg-[#a83900]/5 transition"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white rounded-none border border-[#a83900]/30 text-[#a83900] text-sm font-semibold hover:bg-[#a83900]/5 transition"
         >
           <span
             className="material-symbols-outlined"
@@ -192,7 +192,7 @@ export default function ReportsPage() {
       />
 
       {error && (
-        <div className="mb-6 px-4 py-3 rounded-md bg-red-50 text-red-700 text-sm">
+        <div className="mb-6 px-4 py-3 rounded-none bg-red-50 text-red-700 text-sm">
           {error}
         </div>
       )}
@@ -203,14 +203,14 @@ export default function ReportsPage() {
             {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-[140px] rounded-2xl bg-gray-200 animate-pulse"
+                className="h-[140px] rounded-none bg-gray-200 animate-pulse"
               />
             ))}
           </div>
-          <div className="h-[320px] rounded-2xl bg-gray-200 animate-pulse" />
+          <div className="h-[320px] rounded-none bg-gray-200 animate-pulse" />
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-            <div className="h-[360px] rounded-2xl bg-gray-200 animate-pulse xl:col-span-2" />
-            <div className="h-[360px] rounded-2xl bg-gray-200 animate-pulse" />
+            <div className="h-[360px] rounded-none bg-gray-200 animate-pulse xl:col-span-2" />
+            <div className="h-[360px] rounded-none bg-gray-200 animate-pulse" />
           </div>
         </div>
       ) : (

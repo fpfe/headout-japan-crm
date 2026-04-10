@@ -34,7 +34,7 @@ export default function ServiceTypeBreakdown({ leads }: { leads: Lead[] }) {
 
   return (
     <div
-      className="rounded-2xl p-6"
+      className="rounded-none p-6"
       style={{ background: '#f1f3fe' }}
     >
       <h2
@@ -59,11 +59,11 @@ export default function ServiceTypeBreakdown({ leads }: { leads: Lead[] }) {
                 {r.type}
               </div>
               <div
-                className="flex-1 rounded-full overflow-hidden flex items-center"
+                className="flex-1 rounded-none overflow-hidden flex items-center"
                 style={{ background: '#ebedf8', height: 36 }}
               >
                 <div
-                  className="h-full flex items-center justify-end pr-3 rounded-full"
+                  className="h-full flex items-center justify-end pr-3 rounded-none"
                   style={{
                     width: `${r.percentage}%`,
                     background:

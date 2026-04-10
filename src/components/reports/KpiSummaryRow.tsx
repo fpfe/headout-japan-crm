@@ -51,10 +51,10 @@ export default function KpiSummaryRow({ leads }: { leads: Lead[] }) {
       {cards.map((c) => (
         <div
           key={c.label}
-          className="bg-white rounded-2xl p-6 flex flex-col gap-4"
+          className="bg-white rounded-none p-6 flex flex-col gap-4"
         >
           <div
-            className="w-11 h-11 rounded-xl flex items-center justify-center"
+            className="w-11 h-11 rounded-none flex items-center justify-center"
             style={{ background: c.iconBg }}
           >
             <span

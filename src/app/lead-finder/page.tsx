@@ -403,7 +403,7 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
     <div className="flex gap-6">
       {/* LEFT PANEL */}
       <aside className="w-72 shrink-0">
-        <div className="rounded-lg bg-white border border-gray-200 p-5">
+        <div className="rounded-none bg-white border border-gray-200 p-5">
           {/* City tabs */}
           <div className="flex gap-1 mb-5">
             {CITIES.map((c) => (
@@ -413,7 +413,7 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
                   setCity(c)
                   setSelectedId(null)
                 }}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-xs font-semibold rounded-none transition-colors ${
                   city === c
                     ? 'bg-[#a83900] text-white'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -434,7 +434,7 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
               if (e.key === 'Enter') findLeads()
             }}
             placeholder="e.g. sake tasting, food tours"
-            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-md bg-gray-50 focus:bg-white focus:border-[#a83900] outline-none transition-colors"
+            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-none bg-gray-50 focus:bg-white focus:border-[#a83900] outline-none transition-colors"
           />
 
           <div className="flex flex-wrap gap-1.5 mt-3 mb-3">
@@ -442,7 +442,7 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
               <button
                 key={t}
                 onClick={() => setKeywords(t)}
-                className="px-2.5 py-1 text-[11px] rounded-full bg-gray-100 text-gray-600 hover:bg-[#a83900]/10 hover:text-[#a83900] transition-colors"
+                className="px-2.5 py-1 text-[11px] rounded-none bg-gray-100 text-gray-600 hover:bg-[#a83900]/10 hover:text-[#a83900] transition-colors"
               >
                 {t}
               </button>
@@ -452,13 +452,13 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
           <button
             onClick={findLeads}
             disabled={loading}
-            className="w-full py-2.5 text-sm font-semibold text-white bg-[#a83900] rounded-md hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
+            className="w-full py-2.5 text-sm font-semibold text-white bg-[#a83900] rounded-none hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
           >
             {loading ? 'Searching...' : 'Find Leads'}
           </button>
 
           {error && (
-            <div className="mt-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-md">
+            <div className="mt-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-none">
               {error}
             </div>
           )}
@@ -493,7 +493,7 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
               setSettingsNote(null)
               setSettingsOpen(true)
             }}
-            className="mt-4 w-full py-2 text-xs text-gray-500 border border-gray-200 rounded-md hover:text-[#a83900] hover:border-[#a83900] transition-colors"
+            className="mt-4 w-full py-2 text-xs text-gray-500 border border-gray-200 rounded-none hover:text-[#a83900] hover:border-[#a83900] transition-colors"
           >
             ⚙ Settings
           </button>
@@ -503,8 +503,8 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
       {/* RIGHT PANEL */}
       <main className="flex-1 min-w-0">
         {loading ? (
-          <div className="rounded-lg bg-white border border-gray-200 p-10 flex flex-col items-center gap-3">
-            <div className="w-8 h-8 rounded-full border-[3px] border-gray-200 border-t-[#a83900] animate-spin" />
+          <div className="rounded-none bg-white border border-gray-200 p-10 flex flex-col items-center gap-3">
+            <div className="w-8 h-8 rounded-none border-[3px] border-gray-200 border-t-[#a83900] animate-spin" />
             <div className="text-sm text-gray-600">{loadingMsg}</div>
           </div>
         ) : selected ? (
@@ -568,7 +568,7 @@ Skip companies already in this list (case-insensitive name match): ${existingNam
         {toasts.map((t) => (
           <div
             key={t.id}
-            className="px-4 py-3 text-sm text-white bg-gray-900 rounded-lg shadow-lg"
+            className="px-4 py-3 text-sm text-white bg-gray-900 rounded-none shadow-lg"
           >
             {t.text}
           </div>
@@ -605,7 +605,7 @@ function ListView({
         </span>
       </div>
       {leads.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-gray-300 bg-white p-10 text-center text-gray-500 text-sm">
+        <div className="rounded-none border border-dashed border-gray-300 bg-white p-10 text-center text-gray-500 text-sm">
           No leads yet for {city}. Use the search panel to find operators.
         </div>
       ) : (
@@ -642,14 +642,14 @@ function LeadCard({
   return (
     <div
       onClick={onOpen}
-      className="group relative rounded-lg bg-white border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
+      className="group relative rounded-none bg-white border border-gray-200 p-4 cursor-pointer hover:border-gray-400 transition-colors"
     >
       <button
         onClick={(e) => {
           e.stopPropagation()
           onDelete()
         }}
-        className="absolute top-2 right-2 w-6 h-6 text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-600 hover:bg-red-50 rounded transition-all"
+        className="absolute top-2 right-2 w-6 h-6 text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-600 hover:bg-red-50 rounded-none transition-all"
         title="Delete"
       >
         ×
@@ -664,7 +664,7 @@ function LeadCard({
           )}
         </div>
         <div
-          className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm ${scoreColor(
+          className={`shrink-0 w-9 h-9 rounded-none flex items-center justify-center text-white font-bold text-sm ${scoreColor(
             lead.priority_score || 0
           )}`}
         >
@@ -672,13 +672,13 @@ function LeadCard({
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
-        <span className="px-2 py-0.5 text-[11px] rounded-full bg-gray-100 text-gray-600">
+        <span className="px-2 py-0.5 text-[11px] rounded-none bg-gray-100 text-gray-600">
           {lead.category || 'Uncategorized'}
         </span>
         {(lead.priority_tourists || []).map((t) => (
           <span
             key={t}
-            className={`px-2 py-0.5 text-[11px] font-semibold rounded-full ${touristBadgeClass(
+            className={`px-2 py-0.5 text-[11px] font-semibold rounded-none ${touristBadgeClass(
               t
             )}`}
           >
@@ -686,12 +686,12 @@ function LeadCard({
           </span>
         ))}
         {lead.klook_listed && (
-          <span className="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-[#a83900]/10 text-[#a83900]">
+          <span className="px-2 py-0.5 text-[11px] font-semibold rounded-none bg-[#a83900]/10 text-[#a83900]">
             On Klook
           </span>
         )}
         {isAdded && (
-          <span className="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-green-100 text-green-700">
+          <span className="px-2 py-0.5 text-[11px] font-semibold rounded-none bg-green-100 text-green-700">
             In CRM ✓
           </span>
         )}
@@ -702,7 +702,7 @@ function LeadCard({
             e.stopPropagation()
             onEmail()
           }}
-          className="px-2.5 py-1 text-xs text-gray-600 border border-gray-200 rounded-md hover:text-[#a83900] hover:border-[#a83900] transition-colors"
+          className="px-2.5 py-1 text-xs text-gray-600 border border-gray-200 rounded-none hover:text-[#a83900] hover:border-[#a83900] transition-colors"
         >
           ✉ Email
         </button>
@@ -739,19 +739,19 @@ function DetailView({
       >
         ← Back to list
       </button>
-      <div className="rounded-lg bg-white border border-gray-200 p-6">
+      <div className="rounded-none bg-white border border-gray-200 p-6">
         <h1 className="text-2xl font-bold text-gray-900">{lead.name}</h1>
         {lead.name_jp && (
           <div className="text-sm text-gray-500 mt-1">{lead.name_jp}</div>
         )}
         <div className="flex flex-wrap items-center gap-1.5 mt-3">
-          <span className="px-2 py-0.5 text-[11px] rounded-full bg-gray-100 text-gray-600">
+          <span className="px-2 py-0.5 text-[11px] rounded-none bg-gray-100 text-gray-600">
             {lead.category}
           </span>
           {(lead.priority_tourists || []).map((t) => (
             <span
               key={t}
-              className={`px-2 py-0.5 text-[11px] font-semibold rounded-full ${touristBadgeClass(
+              className={`px-2 py-0.5 text-[11px] font-semibold rounded-none ${touristBadgeClass(
                 t
               )}`}
             >
@@ -759,12 +759,12 @@ function DetailView({
             </span>
           ))}
           {lead.klook_listed && (
-            <span className="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-[#a83900]/10 text-[#a83900]">
+            <span className="px-2 py-0.5 text-[11px] font-semibold rounded-none bg-[#a83900]/10 text-[#a83900]">
               On Klook
             </span>
           )}
           <span
-            className={`w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-xs ${scoreColor(
+            className={`w-7 h-7 rounded-none flex items-center justify-center text-white font-bold text-xs ${scoreColor(
               lead.priority_score || 0
             )}`}
           >
@@ -798,7 +798,7 @@ function DetailView({
               {lead.experience_types.map((e) => (
                 <span
                   key={e}
-                  className="px-2 py-0.5 text-[11px] rounded-full bg-gray-100 text-gray-600"
+                  className="px-2 py-0.5 text-[11px] rounded-none bg-gray-100 text-gray-600"
                 >
                   {e}
                 </span>
@@ -855,14 +855,14 @@ function DetailView({
         <div className="flex flex-wrap gap-2 mt-6">
           <button
             onClick={onGenerateEmail}
-            className="px-4 py-2 text-sm font-semibold text-white bg-[#a83900] rounded-md hover:opacity-90"
+            className="px-4 py-2 text-sm font-semibold text-white bg-[#a83900] rounded-none hover:opacity-90"
           >
             Generate Cold Email
           </button>
           {isAdded ? (
             <button
               disabled
-              className="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-md cursor-not-allowed"
+              className="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-none cursor-not-allowed"
             >
               Added ✓
             </button>
@@ -870,7 +870,7 @@ function DetailView({
             <button
               onClick={onAddToCrm}
               disabled={adding}
-              className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-md hover:border-gray-500 disabled:opacity-60"
+              className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-none hover:border-gray-500 disabled:opacity-60"
             >
               {adding ? 'Adding...' : 'Add to CRM'}
             </button>
@@ -879,13 +879,13 @@ function DetailView({
             href="https://kinetic-crm.vercel.app/leads"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-md hover:border-gray-500"
+            className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-none hover:border-gray-500"
           >
             Open in CRM
           </a>
         </div>
         {addError && (
-          <div className="mt-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-md">
+          <div className="mt-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-none">
             {addError}
           </div>
         )}
@@ -993,7 +993,7 @@ Requirements:
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-auto p-6"
+        className="bg-white rounded-none max-w-2xl w-full max-h-[90vh] overflow-auto p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-bold mb-4">
@@ -1015,33 +1015,33 @@ Requirements:
               value={val}
               onChange={(e) => setter(e.target.value)}
               placeholder={ph}
-              className="w-full min-h-[60px] p-2.5 text-sm border border-gray-200 rounded-md bg-gray-50 focus:bg-white focus:border-[#a83900] outline-none"
+              className="w-full min-h-[60px] p-2.5 text-sm border border-gray-200 rounded-none bg-gray-50 focus:bg-white focus:border-[#a83900] outline-none"
             />
           </div>
         ))}
         <div className="flex justify-end gap-2 mt-4">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-md hover:border-gray-500"
+            className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-none hover:border-gray-500"
           >
             Close
           </button>
           <button
             onClick={generate}
             disabled={generating}
-            className="px-4 py-2 text-sm font-semibold text-white bg-[#a83900] rounded-md hover:opacity-90 disabled:opacity-60"
+            className="px-4 py-2 text-sm font-semibold text-white bg-[#a83900] rounded-none hover:opacity-90 disabled:opacity-60"
           >
             {generating ? 'Generating...' : 'Generate Email'}
           </button>
         </div>
         {err && (
-          <div className="mt-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-md">
+          <div className="mt-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-none">
             {err}
           </div>
         )}
         {output && (
           <div className="mt-4">
-            <pre className="p-3.5 text-xs leading-relaxed bg-gray-50 border border-gray-200 rounded-md whitespace-pre-wrap font-sans">
+            <pre className="p-3.5 text-xs leading-relaxed bg-gray-50 border border-gray-200 rounded-none whitespace-pre-wrap font-sans">
               {output}
             </pre>
             <div className="flex justify-end mt-2">
@@ -1050,7 +1050,7 @@ Requirements:
                   navigator.clipboard.writeText(output)
                   onToast('Email copied')
                 }}
-                className="px-3 py-1.5 text-xs font-semibold text-gray-900 border border-gray-300 rounded-md hover:border-gray-500"
+                className="px-3 py-1.5 text-xs font-semibold text-gray-900 border border-gray-300 rounded-none hover:border-gray-500"
               >
                 Copy
               </button>
@@ -1089,12 +1089,12 @@ function SettingsModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl max-w-md w-full p-6"
+        className="bg-white rounded-none max-w-md w-full p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-bold mb-4">Settings</h2>
         {note && (
-          <div className="mb-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-md">
+          <div className="mb-3 p-2.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-none">
             {note}
           </div>
         )}
@@ -1106,7 +1106,7 @@ function SettingsModal({
           value={val}
           onChange={(e) => setVal(e.target.value)}
           placeholder="sk-ant-..."
-          className="w-full p-2.5 text-sm border border-gray-200 rounded-md bg-gray-50 focus:bg-white focus:border-[#a83900] outline-none"
+          className="w-full p-2.5 text-sm border border-gray-200 rounded-none bg-gray-50 focus:bg-white focus:border-[#a83900] outline-none"
         />
         <p className="text-xs text-gray-500 mt-3">
           Total leads stored: <strong>{leadCount}</strong>
@@ -1114,19 +1114,19 @@ function SettingsModal({
         <div className="flex justify-end gap-2 mt-5">
           <button
             onClick={onClearAll}
-            className="px-3 py-2 text-xs font-semibold text-red-700 border border-red-200 rounded-md hover:bg-red-50"
+            className="px-3 py-2 text-xs font-semibold text-red-700 border border-red-200 rounded-none hover:bg-red-50"
           >
             Clear all leads
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-md hover:border-gray-500"
+            className="px-4 py-2 text-sm font-semibold text-gray-900 border border-gray-300 rounded-none hover:border-gray-500"
           >
             Close
           </button>
           <button
             onClick={() => onSave(val.trim())}
-            className="px-4 py-2 text-sm font-semibold text-white bg-[#a83900] rounded-md hover:opacity-90"
+            className="px-4 py-2 text-sm font-semibold text-white bg-[#a83900] rounded-none hover:opacity-90"
           >
             Save
           </button>

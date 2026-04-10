@@ -48,7 +48,7 @@ function ConversionPill({ rate }: { rate: number }) {
   }
   return (
     <span
-      className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold"
+      className="inline-flex items-center px-2.5 py-1 rounded-none text-[11px] font-bold"
       style={{ background: bg, color }}
     >
       {rate.toFixed(1)}%
@@ -99,7 +99,7 @@ export default function RepPerformanceTable({ leads }: { leads: Lead[] }) {
   }, [leads])
 
   return (
-    <div className="bg-white rounded-2xl p-6">
+    <div className="bg-white rounded-none p-6">
       <h2
         className="font-display text-[#181c23] mb-5"
         style={{ fontSize: '1.25rem', fontWeight: 700 }}
@@ -138,10 +138,10 @@ export default function RepPerformanceTable({ leads }: { leads: Lead[] }) {
                   key={s.repName}
                   className="transition-colors hover:bg-[#f1f3fe]"
                 >
-                  <td className="py-3 px-3 rounded-l-xl">
+                  <td className="py-3 px-3 rounded-none">
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[11px] font-bold"
+                        className="w-8 h-8 rounded-none flex items-center justify-center text-white text-[11px] font-bold"
                         style={{ background: colorForName(s.repName) }}
                       >
                         {initials(s.repName)}
@@ -163,7 +163,7 @@ export default function RepPerformanceTable({ leads }: { leads: Lead[] }) {
                   <td className="py-3 px-3 text-right text-[13px] text-[#181c23]">
                     ¥{s.totalValue.toLocaleString()}
                   </td>
-                  <td className="py-3 px-3 text-right text-[13px] text-[#181c23] rounded-r-xl">
+                  <td className="py-3 px-3 text-right text-[13px] text-[#181c23] rounded-none">
                     {s.avgCycleDays} days
                   </td>
                 </tr>

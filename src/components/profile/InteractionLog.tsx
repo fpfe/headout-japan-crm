@@ -101,7 +101,7 @@ export default function InteractionLog({ leadId }: { leadId: string }) {
     <section
       className="bg-white p-8"
       style={{
-        borderRadius: '2rem',
+        borderRadius: 0,
         border: '1px solid rgba(228,190,177,0.05)',
       }}
     >
@@ -150,12 +150,12 @@ export default function InteractionLog({ leadId }: { leadId: string }) {
               return (
                 <div key={it.id} className="relative">
                   <div
-                    className="absolute -left-14 top-0 w-10 h-10 rounded-full flex items-center justify-center"
+                    className="absolute -left-14 top-0 w-10 h-10 rounded-none flex items-center justify-center"
                     style={{ background: meta.bg, color: meta.fg }}
                   >
                     {meta.icon}
                   </div>
-                  <div className="bg-[#f1f3fe] rounded-2xl p-5">
+                  <div className="bg-[#f1f3fe] rounded-none p-5">
                     <div className="flex items-start justify-between gap-4">
                       <div className="font-bold text-[16px] text-[#181c23]">
                         {it.title}
@@ -175,7 +175,7 @@ export default function InteractionLog({ leadId }: { leadId: string }) {
                         {tags.map((t) => (
                           <span
                             key={t}
-                            className="px-2 py-0.5 bg-white rounded-full text-[10px] font-bold text-[#5b4137]"
+                            className="px-2 py-0.5 bg-white rounded-none text-[10px] font-bold text-[#5b4137]"
                           >
                             {t}
                           </span>
@@ -208,7 +208,7 @@ function Skeleton() {
   return (
     <div className="flex flex-col gap-4">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="h-20 rounded-2xl bg-[#f1f3fe] animate-pulse" />
+        <div key={i} className="h-20 rounded-none bg-[#f1f3fe] animate-pulse" />
       ))}
     </div>
   )
@@ -260,7 +260,7 @@ function AddModal({
         onClick={(e) => e.stopPropagation()}
         onSubmit={submit}
         className="bg-white w-full max-w-md p-7"
-        style={{ borderRadius: '1.5rem' }}
+        style={{ borderRadius: 0 }}
       >
         <h3
           className="font-display font-bold text-[20px] mb-5 text-[#181c23]"
@@ -273,7 +273,7 @@ function AddModal({
             <select
               value={type}
               onChange={(e) => setType(e.target.value as InteractionType)}
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             >
               <option value="call">Call</option>
               <option value="email">Email</option>
@@ -287,7 +287,7 @@ function AddModal({
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             />
           </Field>
           <Field label="Body">
@@ -296,7 +296,7 @@ function AddModal({
               value={body}
               onChange={(e) => setBody(e.target.value)}
               rows={4}
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px] resize-none"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px] resize-none"
             />
           </Field>
           <Field label="Tags">
@@ -304,7 +304,7 @@ function AddModal({
               value={tags}
               onChange={(e) => setTags(e.target.value)}
               placeholder="#Pricing, #Contract"
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             />
           </Field>
           <Field label="Date">
@@ -312,14 +312,14 @@ function AddModal({
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             />
           </Field>
           <Field label="Created by">
             <input
               value={createdBy}
               onChange={(e) => setCreatedBy(e.target.value)}
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             />
           </Field>
         </div>
@@ -327,14 +327,14 @@ function AddModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-[13px] font-bold text-gray-600 rounded-full hover:bg-[#f1f3fe]"
+            className="px-4 py-2 text-[13px] font-bold text-gray-600 rounded-none hover:bg-[#f1f3fe]"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={busy}
-            className="brand-gradient text-white text-[13px] font-bold px-5 py-2 rounded-full disabled:opacity-60"
+            className="brand-gradient text-white text-[13px] font-bold px-5 py-2 rounded-none disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #a83900 0%, #ff5a00 100%)' }}
           >
             {busy ? 'Saving…' : 'Save'}

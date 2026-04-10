@@ -97,7 +97,7 @@ export default function PipelineCard({ lead, index }: Props) {
           {...provided.dragHandleProps}
           className="bg-white relative transition-transform"
           style={{
-            borderRadius: 16,
+            borderRadius: 0,
             padding: '1.25rem',
             border: '1px solid transparent',
             cursor: snapshot.isDragging ? 'grabbing' : 'grab',
@@ -136,7 +136,7 @@ export default function PipelineCard({ lead, index }: Props) {
 
           {isHot && (
             <span
-              className="inline-block mb-2 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
+              className="inline-block mb-2 px-2 py-0.5 rounded-none text-[9px] font-bold uppercase tracking-wider"
               style={{ background: '#ffd9e0', color: '#b60056' }}
             >
               Hot Priority
@@ -152,7 +152,7 @@ export default function PipelineCard({ lead, index }: Props) {
 
           <div className="flex items-center gap-2 mt-3">
             <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[11px] font-bold"
+              className="w-8 h-8 rounded-none flex items-center justify-center text-white text-[11px] font-bold"
               style={{ background: colorOf(lead.contactName) }}
             >
               {initialsOf(lead.contactName)}

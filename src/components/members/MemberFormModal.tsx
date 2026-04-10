@@ -100,7 +100,7 @@ export default function MemberFormModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg w-full max-w-[480px] p-7"
+        className="bg-white rounded-none w-full max-w-[480px] p-7"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-5">
@@ -156,7 +156,7 @@ export default function MemberFormModal({
           </Field>
 
           {error && (
-            <div className="text-[12px] text-red-600 bg-red-50 p-2 rounded">
+            <div className="text-[12px] text-red-600 bg-red-50 p-2 rounded-none">
               {error}
             </div>
           )}
@@ -172,7 +172,7 @@ export default function MemberFormModal({
             <button
               type="submit"
               disabled={submitting}
-              className="brand-gradient text-white text-sm font-semibold px-6 py-2.5 rounded-full disabled:opacity-60"
+              className="brand-gradient text-white text-sm font-semibold px-6 py-2.5 rounded-none disabled:opacity-60"
             >
               {submitting
                 ? 'Saving…'

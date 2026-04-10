@@ -166,7 +166,7 @@ export default function LeadFormModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg w-full max-w-[560px] max-h-[90vh] overflow-y-auto p-7"
+        className="bg-white rounded-none w-full max-w-[560px] max-h-[90vh] overflow-y-auto p-7"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-5">
@@ -323,7 +323,7 @@ export default function LeadFormModal({
           </Field>
 
           {error && (
-            <div className="text-[12px] text-red-600 bg-red-50 p-2 rounded">
+            <div className="text-[12px] text-red-600 bg-red-50 p-2 rounded-none">
               {error}
             </div>
           )}
@@ -339,7 +339,7 @@ export default function LeadFormModal({
             <button
               type="submit"
               disabled={submitting}
-              className="brand-gradient text-white text-sm font-semibold px-6 py-2.5 rounded-full disabled:opacity-60"
+              className="brand-gradient text-white text-sm font-semibold px-6 py-2.5 rounded-none disabled:opacity-60"
             >
               {submitting
                 ? 'Saving…'

@@ -123,7 +123,7 @@ export default function CrmPage() {
         <button
           type="button"
           onClick={() => setFormOpen(true)}
-          className="inline-flex items-center gap-2 brand-gradient text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-sm hover:opacity-95 transition"
+          className="inline-flex items-center gap-2 brand-gradient text-white text-sm font-bold px-5 py-2.5 rounded-none shadow-sm hover:opacity-95 transition"
         >
           <span
             className="material-symbols-outlined"
@@ -144,7 +144,7 @@ export default function CrmPage() {
       />
 
       {error && (
-        <div className="mb-6 px-4 py-3 rounded-md bg-red-50 text-red-700 text-sm">
+        <div className="mb-6 px-4 py-3 rounded-none bg-red-50 text-red-700 text-sm">
           {error}
         </div>
       )}
@@ -154,7 +154,7 @@ export default function CrmPage() {
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className="h-[240px] rounded-3xl bg-gray-200 animate-pulse"
+              className="h-[240px] rounded-none bg-gray-200 animate-pulse"
             />
           ))}
         </div>

@@ -83,12 +83,12 @@ export default function MembersPage() {
           </h1>
         </div>
         <div className="flex items-center gap-3 pt-2">
-          <span className="px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-[12px] font-bold tracking-wider">
+          <span className="px-4 py-2 rounded-none bg-gray-100 text-gray-700 text-[12px] font-bold tracking-wider">
             {members.length} REGISTERED
           </span>
           <button
             onClick={openCreate}
-            className="brand-gradient text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-sm hover:opacity-95 transition"
+            className="brand-gradient text-white text-sm font-semibold px-5 py-2.5 rounded-none shadow-sm hover:opacity-95 transition"
           >
             + Register Member
           </button>
@@ -96,7 +96,7 @@ export default function MembersPage() {
       </div>
 
       {error && (
-        <div className="mb-4 px-4 py-3 rounded-md bg-red-50 text-red-700 text-sm">
+        <div className="mb-4 px-4 py-3 rounded-none bg-red-50 text-red-700 text-sm">
           {error}
         </div>
       )}
@@ -106,7 +106,7 @@ export default function MembersPage() {
           Loading members…
         </div>
       ) : (
-        <div className="rounded-lg overflow-visible">
+        <div className="rounded-none overflow-visible">
           <div className="grid grid-cols-[1.4fr_1.4fr_1fr_1fr_1fr_60px] px-5 py-3 text-[11px] font-bold tracking-wider text-gray-500 uppercase">
             <div>Name</div>
             <div>Email</div>
@@ -120,11 +120,11 @@ export default function MembersPage() {
             {members.map((m) => (
               <div
                 key={m.id}
-                className="grid grid-cols-[1.4fr_1.4fr_1fr_1fr_1fr_60px] items-center px-5 py-3 rounded-lg transition-colors hover:bg-[#ebedf8]"
+                className="grid grid-cols-[1.4fr_1.4fr_1fr_1fr_1fr_60px] items-center px-5 py-3 rounded-none transition-colors hover:bg-[#ebedf8]"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-gray-700 shrink-0"
+                    className="w-9 h-9 rounded-none flex items-center justify-center text-[11px] font-bold text-gray-700 shrink-0"
                     style={{
                       background:
                         AVATAR_COLORS[
@@ -163,7 +163,7 @@ export default function MembersPage() {
                     </svg>
                   </button>
                   <div
-                    className="absolute right-0 top-full z-30 w-32 bg-white rounded-md py-1 text-[13px] hidden group-hover:block"
+                    className="absolute right-0 top-full z-30 w-32 bg-white rounded-none py-1 text-[13px] hidden group-hover:block"
                     style={{ boxShadow: '0 8px 24px rgba(15,15,30,0.12)' }}
                   >
                     <button

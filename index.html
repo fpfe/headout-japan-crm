@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Headout Japan BD Lead Finder</title>
+<style>
+  /* ============ Base ============ */
+  :root{
+    --accent:#E85D2F;
+    --bg:#F7F6F3;
+    --card:#FFFFFF;
+    --border:#E5E3DC;
+    --text:#1A1917;
+    --muted:#6B6A64;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px}
+  button{font:inherit;cursor:pointer}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  input,textarea,select{font:inherit;color:var(--text)}
+
+  /* ============ Topbar ============ */
+  .topbar{
+    display:flex;align-items:center;gap:24px;
+    padding:12px 20px;background:var(--card);border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:10;
+  }
+  .logo{font-weight:700;font-size:16px;color:var(--accent);letter-spacing:.2px}
+  .city-tabs{display:flex;gap:4px;margin-left:8px}
+  .city-tabs button{
+    background:transparent;border:1px solid transparent;padding:6px 14px;
+    border-radius:6px;color:var(--muted);transition:all 150ms;
+  }
+  .city-tabs button.active{background:var(--bg);color:var(--text);border-color:var(--border)}
+  .city-tabs button:hover{color:var(--text)}
+  .topbar .spacer{flex:1}
+  .icon-btn{
+    background:transparent;border:1px solid var(--border);border-radius:6px;
+    padding:6px 10px;color:var(--muted);transition:all 150ms;
+  }
+  .icon-btn:hover{color:var(--text);border-color:var(--muted)}
+
+  /* ============ Layout ============ */
+  .layout{display:flex;min-height:calc(100vh - 53px)}
+  .left{
+    width:320px;flex-shrink:0;border-right:1px solid var(--border);
+    background:var(--card);padding:20px;
+  }
+  .right{flex:1;padding:20px;overflow:auto}
+  @media (max-width:768px){
+    .layout{flex-direction:column}
+    .left{width:100%;border-right:none;border-bottom:1px solid var(--border)}
+  }
+
+  /* ============ Left panel ============ */
+  .panel-title{
+    font-size:11px;text-transform:uppercase;letter-spacing:.6px;
+    color:var(--muted);margin:0 0 8px;font-weight:600;
+  }
+  .search-input{
+    width:100%;padding:10px 12px;border:1px solid var(--border);
+    border-radius:6px;background:var(--bg);outline:none;transition:all 150ms;
+  }
+  .search-input:focus{border-color:var(--accent);background:var(--card)}
+  .quick-tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+  .quick-tags button{
+    background:var(--bg);border:1px solid var(--border);border-radius:999px;
+    padding:4px 10px;font-size:12px;color:var(--muted);transition:all 150ms;
+  }
+  .quick-tags button:hover{color:var(--accent);border-color:var(--accent)}
+  .find-btn{
+    width:100%;background:var(--accent);color:#fff;border:none;
+    padding:11px;border-radius:6px;font-weight:600;transition:opacity 150ms;
+  }
+  .find-btn:hover{opacity:.9}
+  .find-btn:disabled{opacity:.6;cursor:not-allowed}
+  .err{
+    margin-top:10px;padding:8px 10px;border:1px solid #EF4444;
+    background:#FEF2F2;color:#B91C1C;border-radius:6px;font-size:12px;
+  }
+  .stats{margin-top:24px;border-top:1px solid var(--border);padding-top:16px}
+  .stat-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px}
+  .stat-row span:first-child{color:var(--muted)}
+  .stat-row span:last-child{font-weight:600}
+
+  /* ============ Right panel: list ============ */
+  .list-header{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:14px;
+  }
+  .list-header h2{margin:0;font-size:18px}
+  .empty{
+    border:1px dashed var(--border);border-radius:8px;padding:40px 20px;
+    text-align:center;color:var(--muted);background:var(--card);
+  }
+  .card{
+    position:relative;background:var(--card);border:1px solid var(--border);
+    border-radius:8px;padding:14px 16px;margin-bottom:10px;cursor:pointer;
+    transition:border-color 150ms;
+  }
+  .card:hover{border-color:var(--muted)}
+  .card .delete{
+    position:absolute;top:8px;right:8px;opacity:0;
+    background:transparent;border:none;color:var(--muted);font-size:18px;
+    width:24px;height:24px;border-radius:4px;transition:opacity 150ms;
+  }
+  .card:hover .delete{opacity:1}
+  .card .delete:hover{color:#EF4444;background:#FEF2F2}
+  .card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .card-name{font-weight:600;font-size:15px;line-height:1.3;padding-right:28px}
+  .card-name-jp{color:var(--muted);font-size:12px;margin-top:2px}
+  .score{
+    flex-shrink:0;width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:14px;
+  }
+  .score.high{background:#22C55E}
+  .score.mid{background:#F59E0B}
+  .score.low{background:#EF4444}
+  .card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
+  .pill{
+    background:var(--bg);border:1px solid var(--border);border-radius:999px;
+    padding:3px 9px;font-size:11px;color:var(--muted);
+  }
+  .badge{
+    border-radius:999px;padding:3px 9px;font-size:11px;font-weight:600;
+  }
+  .badge.eu{background:#EFF6FF;color:#1D4ED8}
+  .badge.us{background:#F0FDF4;color:#15803D}
+  .badge.me{background:#FFFBEB;color:#92400E}
+  .badge.klook{background:#FFF1ED;color:var(--accent)}
+  .card-actions{margin-top:10px;display:flex;gap:8px}
+  .link-btn{
+    background:transparent;border:1px solid var(--border);border-radius:6px;
+    padding:4px 10px;font-size:12px;color:var(--muted);transition:all 150ms;
+  }
+  .link-btn:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* ============ Detail view ============ */
+  .back{
+    background:transparent;border:none;color:var(--muted);
+    padding:0;margin-bottom:14px;font-size:14px;
+  }
+  .back:hover{color:var(--text)}
+  .detail{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px}
+  .detail h1{margin:0 0 4px;font-size:22px}
+  .detail .jp{color:var(--muted);margin-bottom:12px}
+  .detail section{margin-top:18px}
+  .detail h3{
+    font-size:11px;text-transform:uppercase;letter-spacing:.6px;
+    color:var(--muted);margin:0 0 6px;font-weight:600;
+  }
+  .detail p{margin:0;line-height:1.55}
+  .pills{display:flex;flex-wrap:wrap;gap:6px}
+  .detail-actions{display:flex;gap:10px;margin-top:24px}
+  .btn-primary{
+    background:var(--accent);color:#fff;border:none;
+    padding:10px 16px;border-radius:6px;font-weight:600;
+  }
+  .btn-secondary{
+    background:transparent;color:var(--text);border:1px solid var(--border);
+    padding:10px 16px;border-radius:6px;font-weight:600;
+  }
+  .btn-secondary:hover{border-color:var(--muted)}
+
+  /* ============ Loading ============ */
+  .loading{
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+    padding:40px;background:var(--card);border:1px solid var(--border);border-radius:8px;
+  }
+  .spinner{
+    width:32px;height:32px;border-radius:50%;
+    border:3px solid var(--border);border-top-color:var(--accent);
+    animation:spin 800ms linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ============ Modal ============ */
+  .overlay{
+    position:fixed;inset:0;background:rgba(26,25,23,.5);
+    display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  .modal{
+    background:var(--card);border-radius:10px;max-width:640px;width:100%;
+    max-height:90vh;overflow:auto;padding:24px;
+  }
+  .modal h2{margin:0 0 16px;font-size:18px}
+  .modal label{display:block;margin:12px 0 4px;font-size:12px;color:var(--muted);font-weight:600}
+  .modal textarea, .modal input[type=text], .modal input[type=password]{
+    width:100%;border:1px solid var(--border);border-radius:6px;padding:10px;
+    background:var(--bg);outline:none;resize:vertical;
+  }
+  .modal textarea{min-height:60px}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+  .danger{
+    background:transparent;color:#B91C1C;border:1px solid #FECACA;
+    padding:8px 14px;border-radius:6px;
+  }
+  .danger:hover{background:#FEF2F2}
+  .email-output{
+    margin-top:14px;border:1px solid var(--border);border-radius:6px;
+    padding:14px;background:var(--bg);white-space:pre-wrap;font-size:13px;line-height:1.5;
+  }
+
+  /* ============ Toast ============ */
+  .toast{
+    position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;
+    padding:12px 18px;border-radius:8px;font-size:13px;z-index:200;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== Topbar ===================== -->
+<div class="topbar">
+  <div class="logo">HEADOUT · BD Japan</div>
+  <div class="city-tabs" id="cityTabs">
+    <button data-city="Tokyo" class="active">Tokyo</button>
+    <button data-city="Osaka">Osaka</button>
+    <button data-city="Kyoto">Kyoto</button>
+  </div>
+  <div class="spacer"></div>
+  <button class="icon-btn" id="settingsBtn">⚙ Settings</button>
+</div>
+
+<!-- ===================== Main layout ===================== -->
+<div class="layout">
+
+  <!-- Left panel: search + stats -->
+  <aside class="left">
+    <p class="panel-title">Find operators</p>
+    <input id="searchInput" class="search-input" placeholder="e.g. sake tasting, food tours" />
+    <div class="quick-tags" id="quickTags"></div>
+    <button class="find-btn" id="findBtn">Find Leads</button>
+    <div id="errBox"></div>
+
+    <div class="stats">
+      <p class="panel-title">Stats · <span id="statCity">Tokyo</span></p>
+      <div class="stat-row"><span>Total leads</span><span id="statTotal">0</span></div>
+      <div class="stat-row"><span>On Klook</span><span id="statKlook">0</span></div>
+      <div class="stat-row"><span>Not on Klook</span><span id="statNoKlook">0</span></div>
+      <div class="stat-row"><span>High priority (8-10)</span><span id="statHigh">0</span></div>
+    </div>
+  </aside>
+
+  <!-- Right panel: list or detail -->
+  <main class="right" id="rightPanel"></main>
+</div>
+
+<script>
+/* ============================================================
+   State
+   ============================================================ */
+const LS_KEY_API = 'headout_api_key';
+const LS_KEY_LEADS = 'headout_leads';
+
+const QUICK_TAGS = [
+  'Food & Dining','Cultural Tours','Outdoor Activities','Entertainment',
+  'Day Trips','Unique Experiences','Art & Crafts','Sake & Beer',
+  'Tea Ceremony','Traditional Arts'
+];
+
+let state = {
+  city: 'Tokyo',
+  leads: loadLeads(),
+  view: 'list',          // 'list' | 'detail'
+  selectedId: null,
+  loading: false,
+  loadingMsg: '',
+};
+
+function loadLeads(){
+  try { return JSON.parse(localStorage.getItem(LS_KEY_LEADS) || '[]'); }
+  catch(e){ return []; }
+}
+function saveLeads(){
+  localStorage.setItem(LS_KEY_LEADS, JSON.stringify(state.leads));
+}
+function getApiKey(){ return localStorage.getItem(LS_KEY_API) || ''; }
+function setApiKey(k){ localStorage.setItem(LS_KEY_API, k); }
+
+/* ============================================================
+   Rendering
+   ============================================================ */
+function render(){
+  // city tabs
+  document.querySelectorAll('#cityTabs button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.city === state.city);
+  });
+  document.getElementById('statCity').textContent = state.city;
+  renderStats();
+  renderRight();
+}
+
+function renderStats(){
+  const cityLeads = state.leads.filter(l=>l.city===state.city);
+  document.getElementById('statTotal').textContent = cityLeads.length;
+  document.getElementById('statKlook').textContent = cityLeads.filter(l=>l.klook_listed).length;
+  document.getElementById('statNoKlook').textContent = cityLeads.filter(l=>!l.klook_listed).length;
+  document.getElementById('statHigh').textContent = cityLeads.filter(l=>l.priority_score>=8).length;
+}
+
+function renderRight(){
+  const root = document.getElementById('rightPanel');
+  if(state.loading){
+    root.innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        <div id="loadMsg">${escapeHtml(state.loadingMsg||'Searching...')}</div>
+      </div>`;
+    return;
+  }
+  if(state.view==='detail'){
+    renderDetail(root);
+    return;
+  }
+  // list
+  const cityLeads = state.leads.filter(l=>l.city===state.city)
+    .sort((a,b)=> (b.priority_score||0)-(a.priority_score||0));
+  let html = `<div class="list-header">
+    <h2>${state.city} Operators</h2>
+    <span style="color:var(--muted);font-size:12px">${cityLeads.length} lead${cityLeads.length===1?'':'s'}</span>
+  </div>`;
+  if(cityLeads.length===0){
+    html += `<div class="empty">No leads yet for ${state.city}. Use the search panel to find operators.</div>`;
+  } else {
+    html += cityLeads.map(cardHtml).join('');
+  }
+  root.innerHTML = html;
+
+  // bind card events
+  root.querySelectorAll('.card').forEach(c=>{
+    const id = c.dataset.id;
+    c.addEventListener('click', e=>{
+      if(e.target.closest('.delete')||e.target.closest('.link-btn')) return;
+      state.view='detail'; state.selectedId=id; render();
+    });
+    c.querySelector('.delete').addEventListener('click', e=>{
+      e.stopPropagation();
+      if(confirm('Delete this lead?')){
+        state.leads = state.leads.filter(l=>l.id!==id);
+        saveLeads(); render();
+      }
+    });
+    const emailBtn = c.querySelector('.email-link');
+    if(emailBtn) emailBtn.addEventListener('click', e=>{
+      e.stopPropagation();
+      openEmailModal(id);
+    });
+  });
+}
+
+function cardHtml(l){
+  const score = l.priority_score||0;
+  const scoreClass = score>=8?'high':score>=5?'mid':'low';
+  const tourists = (l.priority_tourists||[]).map(t=>{
+    const cls = t==='Europe'?'eu':t==='US'?'us':'me';
+    return `<span class="badge ${cls}">${t}</span>`;
+  }).join('');
+  return `<div class="card" data-id="${l.id}">
+    <button class="delete" title="Delete">×</button>
+    <div class="card-top">
+      <div>
+        <div class="card-name">${escapeHtml(l.name)}</div>
+        ${l.name_jp?`<div class="card-name-jp">${escapeHtml(l.name_jp)}</div>`:''}
+      </div>
+      <div class="score ${scoreClass}">${score}</div>
+    </div>
+    <div class="card-meta">
+      <span class="pill">${escapeHtml(l.category||'Uncategorized')}</span>
+      ${tourists}
+      ${l.klook_listed?'<span class="badge klook">On Klook</span>':''}
+    </div>
+    <div class="card-actions">
+      <button class="link-btn email-link">✉ Email</button>
+    </div>
+  </div>`;
+}
+
+function renderDetail(root){
+  const l = state.leads.find(x=>x.id===state.selectedId);
+  if(!l){ state.view='list'; renderRight(); return; }
+  const tourists = (l.priority_tourists||[]).map(t=>{
+    const cls = t==='Europe'?'eu':t==='US'?'us':'me';
+    return `<span class="badge ${cls}">${t}</span>`;
+  }).join('');
+  const expTypes = (l.experience_types||[]).map(e=>`<span class="pill">${escapeHtml(e)}</span>`).join('');
+
+  root.innerHTML = `
+    <button class="back" id="backBtn">← Back to list</button>
+    <div class="detail">
+      <h1>${escapeHtml(l.name)}</h1>
+      ${l.name_jp?`<div class="jp">${escapeHtml(l.name_jp)}</div>`:''}
+      <div class="card-meta" style="margin-top:10px">
+        <span class="pill">${escapeHtml(l.category||'')}</span>
+        ${tourists}
+        ${l.klook_listed?'<span class="badge klook">On Klook</span>':''}
+        <span class="score ${l.priority_score>=8?'high':l.priority_score>=5?'mid':'low'}" style="width:28px;height:28px;font-size:12px">${l.priority_score||0}</span>
+      </div>
+
+      ${l.website?`<section><h3>Website</h3><p><a href="${escapeAttr(l.website)}" target="_blank" rel="noopener">${escapeHtml(l.website)}</a></p></section>`:''}
+      ${l.address?`<section><h3>Address</h3><p>${escapeHtml(l.address)}</p></section>`:''}
+      ${l.description?`<section><h3>Description</h3><p>${escapeHtml(l.description)}</p></section>`:''}
+      ${expTypes?`<section><h3>Experience types</h3><div class="pills">${expTypes}</div></section>`:''}
+      ${l.inbound_strategy?`<section><h3>Inbound strategy</h3><p>${escapeHtml(l.inbound_strategy)}</p></section>`:''}
+      <section><h3>Recent news</h3><p>${l.recent_news?escapeHtml(l.recent_news):'No recent news found.'}</p></section>
+
+      <section>
+        <h3>Klook comparison</h3>
+        <p><strong>Listed on Klook:</strong> ${l.klook_listed?'Yes':'No'}
+          ${l.klook_url?` · <a href="${escapeAttr(l.klook_url)}" target="_blank" rel="noopener">View listing</a>`:''}</p>
+        ${l.klook_gap?`<p style="margin-top:6px"><strong>Gap for Headout:</strong> ${escapeHtml(l.klook_gap)}</p>`:''}
+      </section>
+
+      <section>
+        <h3>Contact</h3>
+        <p>${l.contact_person?escapeHtml(l.contact_person):'—'}</p>
+        <p>${l.contact_email?`<a href="mailto:${escapeAttr(l.contact_email)}">${escapeHtml(l.contact_email)}</a>`:''}
+        ${l.contact_phone?` · ${escapeHtml(l.contact_phone)}`:''}</p>
+      </section>
+
+      <div class="detail-actions">
+        <button class="btn-primary" id="genEmailBtn">Generate Cold Email</button>
+        <button class="btn-secondary" id="openCrmBtn">Open in CRM</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('backBtn').onclick = ()=>{state.view='list';render();};
+  document.getElementById('genEmailBtn').onclick = ()=>openEmailModal(l.id);
+  document.getElementById('openCrmBtn').onclick = ()=>window.open('https://kinetic-crm.vercel.app/','_blank');
+}
+
+/* ============================================================
+   Find leads (Anthropic API + web search)
+   ============================================================ */
+async function findLeads(){
+  const keywords = document.getElementById('searchInput').value.trim();
+  if(!keywords){ showErr('Enter a category or keywords first.'); return; }
+  if(!getApiKey()){ openSettingsModal('Please add your Anthropic API key to start'); return; }
+
+  const messages = [
+    'Searching the web...',
+    'Analyzing operators...',
+    'Checking Klook listings...',
+    'Building profiles...'
+  ];
+  let i=0;
+  state.loading=true; state.loadingMsg=messages[0]; render();
+  const interval = setInterval(()=>{
+    i=(i+1)%messages.length;
+    state.loadingMsg=messages[i];
+    const el = document.getElementById('loadMsg');
+    if(el) el.textContent = messages[i];
+  },1800);
+
+  const existingNames = state.leads.map(l=>l.name).join(', ') || '(none)';
+  const systemPrompt = `You are a business development researcher for Headout, an experience OTA whose primary inbound tourist segments are European, American, and Middle Eastern travelers to Japan.
+
+Your task: search the web and find REAL, EXISTING experience operators in ${state.city}, Japan that match this category/keywords: ${keywords}.
+
+Rules:
+- Only return companies that you have verified exist via web search
+- Do NOT hallucinate company names, websites, or contact details
+- If contact emails or phone numbers are not findable, return null - do not guess
+- Return 5-8 companies
+
+Return ONLY a raw JSON array with no markdown formatting, no backticks, no explanation. Start your response with [ and end with ].
+
+Use this exact schema per company:
+{
+  "id": "unique-slug",
+  "name": "Company Name in English",
+  "name_jp": "Japanese name",
+  "website": "https://...",
+  "city": "${state.city}",
+  "category": "Category",
+  "description": "2-3 factual sentences.",
+  "experience_types": ["..."],
+  "inbound_strategy": "string or null",
+  "recent_news": "string or null",
+  "klook_listed": true,
+  "klook_url": "string or null",
+  "klook_gap": "string",
+  "priority_tourists": ["Europe","US","Middle East"],
+  "priority_score": 8,
+  "contact_person": "string or null",
+  "contact_email": "string or null",
+  "contact_phone": "string or null",
+  "address": "string"
+}
+
+For priority_score, rate 1-10 based on: experience quality, inbound tourist appeal, potential ticket volume, and how well the experience suits European/American/Middle Eastern tourists specifically.
+
+Skip companies already in this list (case-insensitive name match): ${existingNames}`;
+
+  try{
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'content-type':'application/json',
+        'x-api-key':getApiKey(),
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-sonnet-4-5',
+        max_tokens:8000,
+        system: systemPrompt,
+        tools:[{type:'web_search_20250305', name:'web_search'}],
+        messages:[{role:'user', content:`Find ${keywords} operators in ${state.city}.`}]
+      })
+    });
+    clearInterval(interval);
+    if(!res.ok){
+      const t = await res.text();
+      throw new Error(`API error ${res.status}: ${t.slice(0,200)}`);
+    }
+    const data = await res.json();
+    // collect all text blocks
+    const text = (data.content||[])
+      .filter(b=>b.type==='text')
+      .map(b=>b.text).join('\n');
+    let arr;
+    try {
+      const m = text.match(/\[[\s\S]*\]/);
+      arr = JSON.parse(m?m[0]:text);
+    } catch(e){
+      throw new Error('Could not parse results - please try again');
+    }
+    if(!Array.isArray(arr) || arr.length===0){
+      state.loading=false; render();
+      showErr('No new operators found for this search. Try different keywords.');
+      return;
+    }
+    // dedupe
+    const existingNorm = new Set(state.leads.map(l=>(l.name||'').toLowerCase().trim()));
+    const existingUrls = new Set(state.leads.map(l=>normalizeUrl(l.website)));
+    let added=0, skipped=0;
+    for(const lead of arr){
+      const nm = (lead.name||'').toLowerCase().trim();
+      const url = normalizeUrl(lead.website);
+      if(!nm){ skipped++; continue; }
+      if(existingNorm.has(nm) || (url && existingUrls.has(url))){ skipped++; continue; }
+      existingNorm.add(nm);
+      if(url) existingUrls.add(url);
+      lead.id = lead.id || (nm.replace(/[^a-z0-9]+/g,'-')+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6));
+      lead.city = lead.city || state.city;
+      lead.added_at = new Date().toISOString();
+      state.leads.push(lead);
+      added++;
+    }
+    saveLeads();
+    state.loading=false; render();
+    toast(`${added} new lead${added===1?'':'s'} added${skipped?` (${skipped} duplicate${skipped===1?'':'s'} skipped)`:''}`);
+  } catch(err){
+    clearInterval(interval);
+    state.loading=false; render();
+    let msg = err.message || String(err);
+    if(/tool/i.test(msg)) msg += ' — Web search may not be enabled on your API key. Check your Anthropic console.';
+    showErr(msg);
+  }
+}
+
+function normalizeUrl(u){
+  if(!u) return '';
+  return u.toLowerCase().replace(/\/+$/,'').trim();
+}
+
+/* ============================================================
+   Email modal
+   ============================================================ */
+function openEmailModal(leadId){
+  const l = state.leads.find(x=>x.id===leadId);
+  if(!l) return;
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h2>Generate Cold Email · ${escapeHtml(l.name)}</h2>
+      <label>Why this company</label>
+      <textarea id="em1" placeholder="What specifically about them makes them a good Headout partner?"></textarea>
+      <label>Why Headout helps them</label>
+      <textarea id="em2" placeholder="What value does Headout bring to their business?"></textarea>
+      <label>Meeting date options</label>
+      <textarea id="em3" placeholder="Propose 2-3 date/time options"></textarea>
+      <label>Other talking points</label>
+      <textarea id="em4" placeholder="Anything else to mention?"></textarea>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="emClose">Close</button>
+        <button class="btn-primary" id="emGen">Generate Email</button>
+      </div>
+      <div id="emOut"></div>
+    </div>`;
+  document.body.appendChild(overlay);
+  const close = ()=>overlay.remove();
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+  overlay.querySelector('#emClose').onclick = close;
+  overlay.querySelector('#emGen').onclick = async ()=>{
+    if(!getApiKey()){ close(); openSettingsModal('Please add your Anthropic API key to start'); return; }
+    const btn = overlay.querySelector('#emGen');
+    btn.disabled=true; btn.textContent='Generating...';
+    const out = overlay.querySelector('#emOut');
+    out.innerHTML='';
+    const u1 = overlay.querySelector('#em1').value.trim();
+    const u2 = overlay.querySelector('#em2').value.trim();
+    const u3 = overlay.querySelector('#em3').value.trim();
+    const u4 = overlay.querySelector('#em4').value.trim();
+    const sys = `You are writing a cold outreach email on behalf of Seungjun Ahn, Head of Business Development Japan at Headout.
+
+Headout is a global experience OTA strong with inbound European, American, and Middle Eastern tourists. Headout helps operators reach these international visitors with zero upfront cost - operators list their experiences and Headout drives bookings.
+
+Target company: ${l.name}, ${l.city}
+About them: ${l.description||''}
+Why this company: ${u1}
+Why Headout helps their business: ${u2}
+Proposed meeting dates: ${u3}
+Additional points: ${u4}
+
+Write a professional cold email. Requirements:
+- Under 200 words total
+- Include a subject line on the first line as: Subject: [subject]
+- Body starts after a blank line
+- Tone: direct, respectful, value-focused - not pushy, not overly formal
+- End with: Seungjun Ahn | Head of BD Japan | Headout
+- Do not use em dashes anywhere
+- Plain text only, no markdown`;
+    try{
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{
+          'content-type':'application/json',
+          'x-api-key':getApiKey(),
+          'anthropic-version':'2023-06-01',
+          'anthropic-dangerous-direct-browser-access':'true'
+        },
+        body: JSON.stringify({
+          model:'claude-sonnet-4-5',
+          max_tokens:1000,
+          system: sys,
+          messages:[{role:'user', content:'Write the email now.'}]
+        })
+      });
+      if(!res.ok){ throw new Error('API error '+res.status); }
+      const data = await res.json();
+      const text = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+      out.innerHTML = `<div class="email-output" id="emailText">${escapeHtml(text)}</div>
+        <div class="modal-actions"><button class="btn-secondary" id="copyBtn">Copy</button></div>`;
+      out.querySelector('#copyBtn').onclick = ()=>{
+        navigator.clipboard.writeText(text);
+        toast('Email copied');
+      };
+    } catch(err){
+      out.innerHTML = `<div class="err">${escapeHtml(err.message||String(err))}</div>`;
+    } finally {
+      btn.disabled=false; btn.textContent='Generate Email';
+    }
+  };
+}
+
+/* ============================================================
+   Settings modal
+   ============================================================ */
+function openSettingsModal(noteMsg){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h2>Settings</h2>
+      ${noteMsg?`<div class="err">${escapeHtml(noteMsg)}</div>`:''}
+      <label>Anthropic API Key</label>
+      <input type="password" id="setKey" value="${escapeAttr(getApiKey())}" placeholder="sk-ant-..." />
+      <p style="color:var(--muted);font-size:12px;margin-top:14px">Total leads stored: <strong>${state.leads.length}</strong></p>
+      <div class="modal-actions">
+        <button class="danger" id="clearAll">Clear all leads</button>
+        <button class="btn-secondary" id="setClose">Close</button>
+        <button class="btn-primary" id="setSave">Save</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  const close = ()=>overlay.remove();
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+  overlay.querySelector('#setClose').onclick = close;
+  overlay.querySelector('#setSave').onclick = ()=>{
+    setApiKey(overlay.querySelector('#setKey').value.trim());
+    toast('Settings saved'); close();
+  };
+  overlay.querySelector('#clearAll').onclick = ()=>{
+    if(confirm('Delete ALL leads? This cannot be undone.')){
+      state.leads=[]; saveLeads(); render(); close();
+      toast('All leads cleared');
+    }
+  };
+}
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+function escapeHtml(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, c=>(
+    {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+  ));
+}
+function escapeAttr(s){ return escapeHtml(s); }
+
+let errTimer=null;
+function showErr(msg){
+  const box = document.getElementById('errBox');
+  box.innerHTML = `<div class="err">${escapeHtml(msg)}</div>`;
+  clearTimeout(errTimer);
+  errTimer = setTimeout(()=>{ box.innerHTML=''; },5000);
+}
+function toast(msg){
+  const t = document.createElement('div');
+  t.className='toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+
+/* ============================================================
+   Init / event bindings
+   ============================================================ */
+function init(){
+  // quick tags
+  const qt = document.getElementById('quickTags');
+  qt.innerHTML = QUICK_TAGS.map(t=>`<button>${t}</button>`).join('');
+  qt.querySelectorAll('button').forEach(b=>{
+    b.onclick = ()=>{ document.getElementById('searchInput').value = b.textContent; };
+  });
+
+  // city tabs
+  document.querySelectorAll('#cityTabs button').forEach(b=>{
+    b.onclick = ()=>{ state.city = b.dataset.city; state.view='list'; render(); };
+  });
+
+  document.getElementById('findBtn').onclick = findLeads;
+  document.getElementById('searchInput').addEventListener('keydown', e=>{
+    if(e.key==='Enter') findLeads();
+  });
+  document.getElementById('settingsBtn').onclick = ()=>openSettingsModal();
+
+  if(!getApiKey()){
+    openSettingsModal('Please add your Anthropic API key to start');
+  }
+  render();
+}
+init();
+</script>
+</body>
+</html>

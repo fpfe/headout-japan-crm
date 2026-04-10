@@ -38,7 +38,7 @@ export default function PipelineColumn({ column, leads, onAddLead }: Props) {
             {column.label}
           </span>
           <span
-            className="rounded-full px-2 py-0.5 text-[10px] font-bold text-gray-500"
+            className="rounded-none px-2 py-0.5 text-[10px] font-bold text-gray-500"
             style={{ background: '#e5e8f3' }}
           >
             {pad2(leads.length)}
@@ -54,7 +54,7 @@ export default function PipelineColumn({ column, leads, onAddLead }: Props) {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="flex flex-col gap-3 p-2 rounded-2xl transition-colors"
+            className="flex flex-col gap-3 p-2 rounded-none transition-colors"
             style={{
               minHeight: 200,
               background: snapshot.isDraggingOver ? '#f1f3fe' : 'transparent',
@@ -63,7 +63,7 @@ export default function PipelineColumn({ column, leads, onAddLead }: Props) {
             <button
               type="button"
               onClick={() => onAddLead(column.id)}
-              className="w-full text-[12px] text-gray-500 py-2.5 rounded-xl transition-colors"
+              className="w-full text-[12px] text-gray-500 py-2.5 rounded-none transition-colors"
               style={{
                 border: '1.5px dashed #d4d7e8',
               }}

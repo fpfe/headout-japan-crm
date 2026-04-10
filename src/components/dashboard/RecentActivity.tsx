@@ -67,7 +67,7 @@ export default function RecentActivity({ leads }: Props) {
     .slice(0, 5)
 
   return (
-    <div className="bg-[#e5e8f3] rounded-[2.5rem] p-8 xl:col-span-1">
+    <div className="bg-[#e5e8f3] rounded-none p-8 xl:col-span-1">
       <div className="flex items-center justify-between mb-6">
         <h2
           className="font-display font-bold text-[#181c23]"
@@ -88,7 +88,7 @@ export default function RecentActivity({ leads }: Props) {
           const a = activityFor(lead)
           return (
             <div key={lead.id} className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-white border border-gray-200/60 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-none bg-white border border-gray-200/60 flex items-center justify-center flex-shrink-0">
                 <span
                   className={`material-symbols-outlined ${a.color}`}
                   style={{ fontSize: 20 }}
@@ -113,7 +113,7 @@ export default function RecentActivity({ leads }: Props) {
       </div>
 
       {/* Market Spotlight */}
-      <div className="mt-8 bg-white rounded-3xl p-6 relative overflow-hidden">
+      <div className="mt-8 bg-white rounded-none p-6 relative overflow-hidden">
         <div className="text-[11px] font-bold uppercase text-[#a83900] tracking-wider">
           Market Spotlight
         </div>

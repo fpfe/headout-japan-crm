@@ -61,7 +61,7 @@ export default function DocumentStorage({ leadId }: { leadId: string }) {
     <section
       className="bg-white p-8"
       style={{
-        borderRadius: '2rem',
+        borderRadius: 0,
         border: '1px solid rgba(228,190,177,0.05)',
       }}
     >
@@ -89,7 +89,7 @@ export default function DocumentStorage({ leadId }: { leadId: string }) {
       {loading ? (
         <div className="grid grid-cols-3 gap-4">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-24 rounded-2xl bg-[#f1f3fe] animate-pulse" />
+            <div key={i} className="h-24 rounded-none bg-[#f1f3fe] animate-pulse" />
           ))}
         </div>
       ) : items.length === 0 ? (
@@ -103,10 +103,10 @@ export default function DocumentStorage({ leadId }: { leadId: string }) {
             return (
               <div
                 key={d.id}
-                className="group bg-[#f1f3fe] rounded-2xl p-4 border border-transparent hover:border-[rgba(168,57,0,0.2)] transition"
+                className="group bg-[#f1f3fe] rounded-none p-4 border border-transparent hover:border-[rgba(168,57,0,0.2)] transition"
               >
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-[10px] font-bold mb-3"
+                  className="w-12 h-12 rounded-none flex items-center justify-center text-[10px] font-bold mb-3"
                   style={{ background: m.bg, color: m.fg }}
                 >
                   {m.label}
@@ -208,7 +208,7 @@ function AddDocModal({
         onClick={(e) => e.stopPropagation()}
         onSubmit={submit}
         className="bg-white w-full max-w-md p-7"
-        style={{ borderRadius: '1.5rem' }}
+        style={{ borderRadius: 0 }}
       >
         <h3
           className="font-display font-bold text-[20px] mb-2 text-[#181c23]"
@@ -228,7 +228,7 @@ function AddDocModal({
               required
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             />
           </label>
           <label className="block">
@@ -240,7 +240,7 @@ function AddDocModal({
               onChange={(e) =>
                 setFileType(e.target.value as (typeof FILE_TYPES)[number])
               }
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             >
               <option value="pdf">PDF</option>
               <option value="docx">Word</option>
@@ -256,7 +256,7 @@ function AddDocModal({
               value={fileSize}
               onChange={(e) => setFileSize(e.target.value)}
               placeholder="2.4 MB"
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             />
           </label>
         </div>
@@ -264,14 +264,14 @@ function AddDocModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-[13px] font-bold text-gray-600 rounded-full hover:bg-[#f1f3fe]"
+            className="px-4 py-2 text-[13px] font-bold text-gray-600 rounded-none hover:bg-[#f1f3fe]"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={busy}
-            className="text-white text-[13px] font-bold px-5 py-2 rounded-full disabled:opacity-60"
+            className="text-white text-[13px] font-bold px-5 py-2 rounded-none disabled:opacity-60"
             style={{ background: 'linear-gradient(135deg, #a83900 0%, #ff5a00 100%)' }}
           >
             {busy ? 'Saving…' : 'Save'}

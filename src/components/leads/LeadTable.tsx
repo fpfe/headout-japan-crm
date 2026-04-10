@@ -127,7 +127,7 @@ export default function LeadTable({
           return (
             <div className="flex items-center gap-3 min-w-0">
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-gray-700 shrink-0"
+                className="w-9 h-9 rounded-none flex items-center justify-center text-[11px] font-bold text-gray-700 shrink-0"
                 style={{ background: bg }}
               >
                 {initials(lead.contactName)}
@@ -152,7 +152,7 @@ export default function LeadTable({
           return (
             <div className="flex items-center gap-2 min-w-0">
               <span
-                className="w-2 h-2 rounded-full shrink-0"
+                className="w-2 h-2 rounded-none shrink-0"
                 style={{ background: temperatureColor(lead.status) }}
               />
               <Link
@@ -169,7 +169,7 @@ export default function LeadTable({
         accessorKey: 'serviceType',
         header: 'Service Type',
         cell: ({ getValue }) => (
-          <span className="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold text-gray-700 bg-gray-100">
+          <span className="inline-block px-2.5 py-1 rounded-none text-[11px] font-semibold text-gray-700 bg-gray-100">
             {getValue<string>()}
           </span>
         ),
@@ -195,7 +195,7 @@ export default function LeadTable({
           return (
             <div className="flex items-center gap-2 min-w-0">
               <div
-                className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-gray-700 shrink-0"
+                className="w-7 h-7 rounded-none flex items-center justify-center text-[10px] font-bold text-gray-700 shrink-0"
                 style={{
                   background:
                     AVATAR_COLORS[hashIndex(value, AVATAR_COLORS.length)],
@@ -225,7 +225,7 @@ export default function LeadTable({
                   setEditingStatusId(null)
                   onStatusChange(lead, e.target.value as LeadStatus)
                 }}
-                className="text-[12px] rounded-md border border-gray-200 px-2 py-1 bg-white"
+                className="text-[12px] rounded-none border border-gray-200 px-2 py-1 bg-white"
               >
                 {LEAD_STATUSES.map((s) => (
                   <option key={s} value={s}>
@@ -265,7 +265,7 @@ export default function LeadTable({
                 </svg>
               </button>
               <div
-                className="absolute right-0 top-full z-30 w-32 bg-white rounded-md py-1 text-[13px] hidden group-hover:block"
+                className="absolute right-0 top-full z-30 w-32 bg-white rounded-none py-1 text-[13px] hidden group-hover:block"
                 style={{ boxShadow: '0 8px 24px rgba(15,15,30,0.12)' }}
               >
                 <button
@@ -320,7 +320,7 @@ export default function LeadTable({
   const to = Math.min(from + pageSize - 1, total)
 
   return (
-    <div className="rounded-lg overflow-visible">
+    <div className="rounded-none overflow-visible">
       {table.getHeaderGroups().map((hg) => (
         <div
           key={hg.id}
@@ -340,7 +340,7 @@ export default function LeadTable({
         {table.getRowModel().rows.map((row) => (
           <div
             key={row.id}
-            className={`grid ${GRID_COLS} items-center px-5 py-3 rounded-lg transition-colors hover:bg-[#ebedf8]`}
+            className={`grid ${GRID_COLS} items-center px-5 py-3 rounded-none transition-colors hover:bg-[#ebedf8]`}
             style={row.getIsSelected() ? { background: '#ebedf8' } : undefined}
           >
             {row.getVisibleCells().map((cell) => (
@@ -366,7 +366,7 @@ export default function LeadTable({
             type="button"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="px-2 py-1 rounded hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
+            className="px-2 py-1 rounded-none hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
           >
             ‹
           </button>
@@ -376,7 +376,7 @@ export default function LeadTable({
                 key={i}
                 type="button"
                 onClick={() => table.setPageIndex(i)}
-                className={`px-2.5 py-1 rounded font-semibold ${
+                className={`px-2.5 py-1 rounded-none font-semibold ${
                   i === pageIndex
                     ? 'bg-white text-[#a83900]'
                     : 'hover:bg-white text-gray-500'
@@ -390,7 +390,7 @@ export default function LeadTable({
             type="button"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="px-2 py-1 rounded hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
+            className="px-2 py-1 rounded-none hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
           >
             ›
           </button>

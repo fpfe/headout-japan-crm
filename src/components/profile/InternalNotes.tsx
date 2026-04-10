@@ -94,7 +94,7 @@ export default function InternalNotes({ leadId }: { leadId: string }) {
     <section
       className="bg-white p-8"
       style={{
-        borderRadius: '2rem',
+        borderRadius: 0,
         border: '1px solid rgba(228,190,177,0.05)',
       }}
     >
@@ -114,7 +114,7 @@ export default function InternalNotes({ leadId }: { leadId: string }) {
 
       <div className="flex flex-col gap-3 mb-5">
         {loading ? (
-          <div className="h-16 rounded-2xl bg-[#f1f3fe] animate-pulse" />
+          <div className="h-16 rounded-none bg-[#f1f3fe] animate-pulse" />
         ) : notes.length === 0 ? (
           <div className="text-[12px] text-gray-500 text-center py-3">
             No notes yet
@@ -125,7 +125,7 @@ export default function InternalNotes({ leadId }: { leadId: string }) {
             return (
               <div
                 key={n.id}
-                className="group relative rounded-xl p-3"
+                className="group relative rounded-none p-3"
                 style={{
                   background: isReminder
                     ? 'rgba(168,57,0,0.05)'
@@ -186,7 +186,7 @@ export default function InternalNotes({ leadId }: { leadId: string }) {
             }
           }}
           placeholder="Type a quick note..."
-          className="w-full bg-[#f1f3fe] rounded-2xl p-4 text-[13px] resize-none outline-none"
+          className="w-full bg-[#f1f3fe] rounded-none p-4 text-[13px] resize-none outline-none"
           style={{ height: 96 }}
         />
         {focused && draft.trim() && (
@@ -195,7 +195,7 @@ export default function InternalNotes({ leadId }: { leadId: string }) {
               type="button"
               onClick={saveQuick}
               disabled={busy}
-              className="text-[12px] font-bold text-white px-4 py-1.5 rounded-full"
+              className="text-[12px] font-bold text-white px-4 py-1.5 rounded-none"
               style={{ background: 'linear-gradient(135deg, #a83900 0%, #ff5a00 100%)' }}
             >
               Save
@@ -215,20 +215,20 @@ export default function InternalNotes({ leadId }: { leadId: string }) {
               value={reminderText}
               onChange={(e) => setReminderText(e.target.value)}
               placeholder="Reminder text"
-              className="w-full bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+              className="w-full bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
             />
             <div className="flex gap-2">
               <input
                 type="date"
                 value={reminderDate}
                 onChange={(e) => setReminderDate(e.target.value)}
-                className="flex-1 bg-[#f1f3fe] rounded-lg px-3 py-2 text-[13px]"
+                className="flex-1 bg-[#f1f3fe] rounded-none px-3 py-2 text-[13px]"
               />
               <button
                 type="button"
                 onClick={saveReminder}
                 disabled={busy}
-                className="text-[12px] font-bold text-white px-4 py-1.5 rounded-full"
+                className="text-[12px] font-bold text-white px-4 py-1.5 rounded-none"
                 style={{ background: 'linear-gradient(135deg, #a83900 0%, #ff5a00 100%)' }}
               >
                 Save

@@ -38,7 +38,7 @@ export default function InsightsPanel({ leads }: { leads: Lead[] }) {
 
   return (
     <div
-      className="rounded-2xl p-6"
+      className="rounded-none p-6"
       style={{ background: '#e5e8f3' }}
     >
       <h2
@@ -98,9 +98,9 @@ function InsightCard({
   valueColor?: string
 }) {
   return (
-    <div className="bg-white rounded-xl p-4 flex items-start gap-3">
+    <div className="bg-white rounded-none p-4 flex items-start gap-3">
       <div
-        className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+        className="w-9 h-9 rounded-none flex items-center justify-center flex-shrink-0"
         style={{ background: `${color}14` }}
       >
         <span

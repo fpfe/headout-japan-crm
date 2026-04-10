@@ -14,7 +14,7 @@ export default function StatusBadge({ status }: { status: LeadStatus }) {
   const style = STYLES[status] ?? STYLES.New
   return (
     <span
-      className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap"
+      className="inline-flex items-center px-3 py-1 rounded-none text-[11px] font-semibold whitespace-nowrap"
       style={{ background: style.bg, color: style.fg }}
     >
       {status}

@@ -30,7 +30,7 @@ export default function TopNav() {
 
       <div className="flex-1 flex justify-center">
         <div
-          className="flex items-center gap-2 w-[420px] px-4 py-2 rounded-md text-sm text-gray-500"
+          className="flex items-center gap-2 w-[420px] px-4 py-2 rounded-none text-sm text-gray-500"
           style={{ background: '#ebedf8' }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -38,7 +38,7 @@ export default function TopNav() {
             <path d="m20 20-3.5-3.5" />
           </svg>
           <span className="flex-1">Search commands or leads...</span>
-          <span className="text-[11px] px-1.5 py-0.5 rounded bg-white text-gray-500 font-medium">
+          <span className="text-[11px] px-1.5 py-0.5 rounded-none bg-white text-gray-500 font-medium">
             ⌘K
           </span>
         </div>
@@ -53,7 +53,7 @@ export default function TopNav() {
         </button>
         <button className="text-gray-500 hover:text-[#a83900] text-sm font-semibold">⌘</button>
         <div
-          className="w-9 h-9 rounded-full brand-gradient text-white text-xs font-bold flex items-center justify-center"
+          className="w-9 h-9 rounded-none brand-gradient text-white text-xs font-bold flex items-center justify-center"
           aria-label="user"
         >
           KS

@@ -17,7 +17,7 @@ export default function PipelineStats({ leads }: { leads: Lead[] }) {
         background: 'rgba(255,255,255,0.85)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        borderRadius: 24,
+        borderRadius: 0,
         padding: '16px 20px',
         border: '1px solid rgba(255,255,255,0.2)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.06)',

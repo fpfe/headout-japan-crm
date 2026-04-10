@@ -112,11 +112,11 @@ export default function PipelineBoard({
             className="flex-shrink-0 flex flex-col gap-3"
             style={{ width: 300 }}
           >
-            <div className="h-5 w-32 bg-[#ebedf8] rounded animate-pulse" />
+            <div className="h-5 w-32 bg-[#ebedf8] rounded-none animate-pulse" />
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="h-32 bg-[#ebedf8] rounded-2xl animate-pulse"
+                className="h-32 bg-[#ebedf8] rounded-none animate-pulse"
               />
             ))}
           </div>
@@ -128,7 +128,7 @@ export default function PipelineBoard({
   return (
     <>
       {error && (
-        <div className="mb-4 text-[12px] text-red-600 bg-red-50 px-3 py-2 rounded">
+        <div className="mb-4 text-[12px] text-red-600 bg-red-50 px-3 py-2 rounded-none">
           {error}
         </div>
       )}

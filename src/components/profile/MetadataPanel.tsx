@@ -24,7 +24,7 @@ export default function MetadataPanel({ lead }: { lead: Lead }) {
   return (
     <section
       className="p-8"
-      style={{ background: '#e5e8f3', borderRadius: '2rem' }}
+      style={{ background: '#e5e8f3', borderRadius: 0 }}
     >
       <div className="flex items-center justify-between mb-8">
         <h2
@@ -57,7 +57,7 @@ export default function MetadataPanel({ lead }: { lead: Lead }) {
               channels.map((c) => (
                 <span
                   key={c}
-                  className="px-3 py-1 bg-white rounded-full text-[12px] font-medium text-[#181c23]"
+                  className="px-3 py-1 bg-white rounded-none text-[12px] font-medium text-[#181c23]"
                 >
                   {c}
                 </span>
@@ -88,7 +88,7 @@ export default function MetadataPanel({ lead }: { lead: Lead }) {
             <ul className="flex flex-col gap-2">
               {painPoints.map((p, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#b60056] mt-1.5 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-none bg-[#b60056] mt-1.5 shrink-0" />
                   <span className="text-[13px] text-[#5b4137]">{p}</span>
                 </li>
               ))}

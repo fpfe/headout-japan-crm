@@ -36,7 +36,7 @@ export default function LoginPage() {
       style={{ background: '#f9f9ff' }}
     >
       <div
-        className="w-full bg-white rounded-3xl"
+        className="w-full bg-white rounded-none"
         style={{
           maxWidth: 420,
           padding: '2.5rem',
@@ -108,7 +108,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full mt-5 brand-gradient text-white font-bold rounded-full py-3 text-[14px] hover:opacity-95 transition disabled:opacity-70"
+            className="w-full mt-5 brand-gradient text-white font-bold rounded-none py-3 text-[14px] hover:opacity-95 transition disabled:opacity-70"
           >
             {submitting ? 'Signing in...' : 'Sign in'}
           </button>

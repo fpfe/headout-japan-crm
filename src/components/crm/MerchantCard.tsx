@@ -60,14 +60,14 @@ export default function MerchantCard({ lead }: { lead: Lead }) {
   return (
     <Link
       href={`/leads/${lead.id}`}
-      className="group block bg-white rounded-3xl p-6 border border-transparent hover:border-[#a83900]/15 hover:-translate-y-[3px] transition-all duration-200"
+      className="group block bg-white rounded-none p-6 border border-transparent hover:border-[#a83900]/15 hover:-translate-y-[3px] transition-all duration-200"
       style={{
         borderLeft: isHot ? '4px solid #e4006d' : undefined,
       }}
     >
       <div className="flex items-start justify-between gap-3">
         <div
-          className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
+          className="w-12 h-12 rounded-none flex items-center justify-center text-white font-bold"
           style={{ background: colorForName(lead.company || ''), fontSize: 16 }}
         >
           {initials(lead.company)}
@@ -88,7 +88,7 @@ export default function MerchantCard({ lead }: { lead: Lead }) {
 
       <div className="mt-4 flex items-center justify-between gap-3">
         <span
-          className="inline-flex items-center px-2.5 py-1 rounded-full bg-white border border-[#ebedf8] text-[10px] font-bold text-[#5b4137]"
+          className="inline-flex items-center px-2.5 py-1 rounded-none bg-white border border-[#ebedf8] text-[10px] font-bold text-[#5b4137]"
         >
           {lead.leadSource || 'Unknown'}
         </span>

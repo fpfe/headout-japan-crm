@@ -60,12 +60,12 @@ export default function OverdueFollowUps() {
 
   if (loading) {
     return (
-      <div className="h-[160px] rounded-[2.5rem] bg-gray-200 animate-pulse" />
+      <div className="h-[160px] rounded-none bg-gray-200 animate-pulse" />
     )
   }
 
   return (
-    <div className="bg-[#e5e8f3] rounded-[2.5rem] p-8">
+    <div className="bg-[#e5e8f3] rounded-none p-8">
       <div className="flex items-center justify-between mb-6">
         <h2
           className="font-display font-bold text-[#181c23]"
@@ -80,7 +80,7 @@ export default function OverdueFollowUps() {
 
       {items.length === 0 ? (
         <div className="flex items-center gap-3 py-4">
-          <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 rounded-none bg-green-100 flex items-center justify-center flex-shrink-0">
             <span
               className="material-symbols-outlined text-green-600"
               style={{ fontSize: 20 }}
@@ -100,7 +100,7 @@ export default function OverdueFollowUps() {
               href={`/leads/${item.lead.id}`}
               className="flex items-start gap-3 group"
             >
-              <div className="w-10 h-10 rounded-full bg-white border border-gray-200/60 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-none bg-white border border-gray-200/60 flex items-center justify-center flex-shrink-0">
                 <span
                   className="material-symbols-outlined text-[#a83900]"
                   style={{ fontSize: 20 }}
