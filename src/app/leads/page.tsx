@@ -20,6 +20,7 @@ export default function LeadsPage() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [filters, setFilters] = useState<FiltersState>(EMPTY_FILTERS)
 
+  const [search, setSearch] = useState('')
   const [formOpen, setFormOpen] = useState(false)
   const [formMode, setFormMode] = useState<'create' | 'edit'>('create')
   const [editingLead, setEditingLead] = useState<Lead | null>(null)
@@ -65,7 +66,13 @@ export default function LeadsPage() {
       '30d': 30 * 86400_000,
       '90d': 90 * 86400_000,
     }
+    const q = search.toLowerCase()
     return leads.filter((l) => {
+      if (q) {
+        const name = (l.contactName || '').toLowerCase()
+        const company = (l.company || '').toLowerCase()
+        if (!name.includes(q) && !company.includes(q)) return false
+      }
       if (filters.serviceType && l.serviceType !== filters.serviceType)
         return false
       if (filters.status && l.status !== filters.status) return false
@@ -76,7 +83,7 @@ export default function LeadsPage() {
       }
       return true
     })
-  }, [leads, filters])
+  }, [leads, filters, search])
 
   const selectedIds = useMemo(
     () => Object.keys(rowSelection).filter((id) => rowSelection[id]),
@@ -197,8 +204,11 @@ export default function LeadsPage() {
         serviceTypes={serviceTypes}
         members={members}
         onChange={setFilters}
+        search={search}
+        onSearchChange={setSearch}
         selectedCount={selectedIds.length}
         onClear={() => {
+          setSearch('')
           setFilters(EMPTY_FILTERS)
           setRowSelection({})
         }}

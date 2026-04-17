@@ -7,32 +7,11 @@ import {
   RowSelectionState,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import type { Lead, LeadStatus } from '@/types'
 import { LEAD_STATUSES } from '@/types'
 import StatusBadge from './StatusBadge'
-
-const AVATAR_COLORS = [
-  '#fde68a',
-  '#fca5a5',
-  '#a5f3fc',
-  '#bbf7d0',
-  '#ddd6fe',
-  '#fbcfe8',
-]
-
-function hashIndex(s: string, mod: number) {
-  let h = 0
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0
-  return h % mod
-}
-
-function initials(name: string) {
-  const parts = name.trim().split(/\s+/)
-  return ((parts[0]?.[0] ?? '') + (parts[1]?.[0] ?? '')).toUpperCase() || '?'
-}
 
 function temperatureColor(status: string): string {
   if (['Negotiation', 'Proposal Sent', 'Closed Won'].includes(status))
@@ -120,26 +99,17 @@ export default function LeadTable({
         header: 'Contact Person',
         cell: ({ row }) => {
           const lead = row.original
-          const bg =
-            AVATAR_COLORS[
-              hashIndex(lead.contactName || lead.id, AVATAR_COLORS.length)
-            ]
+          if (!lead.contactName && !lead.email) return null
           return (
-            <div className="flex items-center gap-3 min-w-0">
-              <div
-                className="w-9 h-9 rounded-none flex items-center justify-center text-[11px] font-bold text-gray-700 shrink-0"
-                style={{ background: bg }}
-              >
-                {initials(lead.contactName)}
+            <div className="min-w-0">
+              <div className="text-[14px] font-bold text-[#181c23] truncate" title={lead.contactName}>
+                {lead.contactName}
               </div>
-              <div className="min-w-0">
-                <div className="text-[14px] font-bold text-[#181c23] truncate">
-                  {lead.contactName}
-                </div>
-                <div className="text-[12px] text-gray-500 truncate">
+              {lead.email && (
+                <div className="text-[12px] text-gray-500 truncate" title={lead.email}>
                   {lead.email}
                 </div>
-              </div>
+              )}
             </div>
           )
         },
@@ -168,11 +138,17 @@ export default function LeadTable({
       {
         accessorKey: 'serviceType',
         header: 'Service Type',
-        cell: ({ getValue }) => (
-          <span className="inline-block px-2.5 py-1 rounded-none text-[11px] font-semibold text-gray-700 bg-gray-100">
-            {getValue<string>()}
-          </span>
-        ),
+        cell: ({ getValue }) => {
+          const value = getValue<string>()
+          return (
+            <span
+              className="inline-block max-w-[180px] px-2.5 py-1 rounded-none text-[11px] font-semibold text-gray-700 bg-gray-100 truncate"
+              title={value}
+            >
+              {value}
+            </span>
+          )
+        },
       },
       {
         accessorKey: 'leadSource',
@@ -191,22 +167,11 @@ export default function LeadTable({
         accessorKey: 'assignedTo',
         header: 'Assigned To',
         cell: ({ getValue }) => {
-          const value = getValue<string>() || '—'
+          const value = getValue<string>()
           return (
-            <div className="flex items-center gap-2 min-w-0">
-              <div
-                className="w-7 h-7 rounded-none flex items-center justify-center text-[10px] font-bold text-gray-700 shrink-0"
-                style={{
-                  background:
-                    AVATAR_COLORS[hashIndex(value, AVATAR_COLORS.length)],
-                }}
-              >
-                {initials(value)}
-              </div>
-              <span className="text-[12px] text-gray-600 truncate">
-                {value}
-              </span>
-            </div>
+            <span className="text-[12px] text-gray-600 truncate block" title={value}>
+              {value || '\u2014'}
+            </span>
           )
         },
       },
@@ -308,16 +273,8 @@ export default function LeadTable({
         typeof updater === 'function' ? updater(rowSelection) : updater
       onRowSelectionChange(next)
     },
-    initialState: { pagination: { pageSize: 10 } },
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
   })
-
-  const { pageIndex, pageSize } = table.getState().pagination
-  const pageCount = table.getPageCount()
-  const total = leads.length
-  const from = total === 0 ? 0 : pageIndex * pageSize + 1
-  const to = Math.min(from + pageSize - 1, total)
 
   return (
     <div className="rounded-none overflow-visible">
@@ -357,45 +314,6 @@ export default function LeadTable({
         )}
       </div>
 
-      <div className="flex items-center justify-between px-5 py-4 mt-2 text-[12px] text-gray-500">
-        <div>
-          Showing {from}–{to} of {total} results
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="px-2 py-1 rounded-none hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
-          >
-            ‹
-          </button>
-          {Array.from({ length: Math.max(pageCount, 1) }, (_, i) => i).map(
-            (i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => table.setPageIndex(i)}
-                className={`px-2.5 py-1 rounded-none font-semibold ${
-                  i === pageIndex
-                    ? 'bg-white text-[#a83900]'
-                    : 'hover:bg-white text-gray-500'
-                }`}
-              >
-                {i + 1}
-              </button>
-            )
-          )}
-          <button
-            type="button"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="px-2 py-1 rounded-none hover:bg-white disabled:opacity-30 disabled:hover:bg-transparent"
-          >
-            ›
-          </button>
-        </div>
-      </div>
     </div>
   )
 }
