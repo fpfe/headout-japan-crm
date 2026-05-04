@@ -15,6 +15,9 @@ import CsvImportModal from '@/components/leads/CsvImportModal'
 import EnrichmentPanel from '@/components/leads/EnrichmentPanel'
 import MagicFieldsPanel from '@/components/leads/MagicFieldsPanel'
 import { useToast } from '@/components/ui/Toast'
+import { useViewingAs } from '@/lib/use-viewing-as'
+
+const MINE_STORAGE_KEY = 'cowork.leads.onlyMine'
 
 export default function LeadsPage() {
   const { toastSuccess, toastError } = useToast()
@@ -37,6 +40,25 @@ export default function LeadsPage() {
   const [csvImportOpen, setCsvImportOpen] = useState(false)
   const [enrichingLead, setEnrichingLead] = useState<Lead | null>(null)
   const [magicFieldsOpen, setMagicFieldsOpen] = useState(false)
+  const { name: viewingAs } = useViewingAs()
+  const [onlyMine, setOnlyMine] = useState(false)
+
+  // Hydrate "Only mine" preference from localStorage
+  useEffect(() => {
+    try {
+      const v = window.localStorage.getItem(MINE_STORAGE_KEY)
+      if (v === 'true') setOnlyMine(true)
+    } catch {
+      /* ignore */
+    }
+  }, [])
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(MINE_STORAGE_KEY, onlyMine ? 'true' : 'false')
+    } catch {
+      /* ignore */
+    }
+  }, [onlyMine])
 
   const refresh = useCallback(async () => {
     setLoading(true)
@@ -105,7 +127,10 @@ export default function LeadsPage() {
       '90d': 90 * 86400_000,
     }
     const q = search.toLowerCase()
+    const me = viewingAs.trim()
     return leads.filter((l) => {
+      // "My Leads" toggle — UI-only filter, scoped to assignedTo === viewingAs name
+      if (onlyMine && (l.assignedTo || '').trim() !== me) return false
       if (q) {
         // Search across all lead text fields
         const searchable = [
@@ -134,7 +159,7 @@ export default function LeadsPage() {
       }
       return true
     })
-  }, [leads, filters, search, interactionMatchIds])
+  }, [leads, filters, search, interactionMatchIds, onlyMine, viewingAs])
 
   const selectedIds = useMemo(
     () => Object.keys(rowSelection).filter((id) => rowSelection[id]),
@@ -343,6 +368,22 @@ export default function LeadsPage() {
           </h1>
         </div>
         <div className="flex items-center gap-2 sm:gap-3 sm:pt-2 flex-wrap">
+          <button
+            type="button"
+            onClick={() => setOnlyMine((v) => !v)}
+            title={onlyMine ? `Showing only leads assigned to ${viewingAs}` : 'Showing all team leads'}
+            className={`inline-flex items-center gap-1.5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-none text-[10px] sm:text-[12px] font-bold uppercase tracking-wider transition-colors ${
+              onlyMine
+                ? 'bg-[#a83900] text-white hover:bg-[#8a2f00]'
+                : 'bg-white border border-gray-300 text-gray-700 hover:border-[#a83900] hover:text-[#a83900]'
+            }`}
+            style={{ letterSpacing: '0.1em' }}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
+              {onlyMine ? 'person' : 'groups'}
+            </span>
+            {onlyMine ? 'My Leads' : 'All Leads'}
+          </button>
           <span className="px-2 sm:px-4 py-1.5 sm:py-2 rounded-none bg-gray-100 text-gray-700 text-[10px] sm:text-[12px] font-bold tracking-wider">
             {activeCount} ACTIVE
           </span>

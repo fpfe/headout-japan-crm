@@ -28,6 +28,8 @@ const dict: Record<string, Record<Locale, string>> = {
   'nav.crm': { en: 'CRM', ja: 'CRM' },
   'nav.reports': { en: 'Reports', ja: 'レポート' },
   'nav.members': { en: 'Members', ja: 'メンバー' },
+  'nav.news': { en: 'News', ja: 'ニュース' },
+  'nav.intelligence': { en: 'Intelligence', ja: 'インテリジェンス' },
   'nav.signOut': { en: 'Sign out', ja: 'ログアウト' },
 
   /* --- Sidebar wordmark --- */

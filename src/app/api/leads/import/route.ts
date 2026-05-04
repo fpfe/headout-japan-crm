@@ -44,6 +44,11 @@ export async function POST(request: NextRequest) {
           dealValue: row.dealValue || row.deal_value || '0',
           tags: row.tags || '',
           followUpDate: row.followUpDate || row.follow_up_date || '',
+          competitorKkday: '',
+          competitorKlook: '',
+          competitorGyg: '',
+          competitorViator: '',
+          competitorAirbnb: '',
         })
         results.success++
         // Small delay to avoid rate limiting Google Sheets

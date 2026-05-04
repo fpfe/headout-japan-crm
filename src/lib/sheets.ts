@@ -6,25 +6,31 @@ import { DEFAULT_SERVICE_TYPES } from '@/types'
 const SHEET_NAME = 'Leads'
 const SERVICE_TYPES_TAB = 'ServiceTypes'
 const MEMBERS_TAB = 'Members'
-const RANGE = `${SHEET_NAME}!A2:O`
-const HEADER_RANGE = `${SHEET_NAME}!A1:O1`
+const RANGE = `${SHEET_NAME}!A2:T`
+const HEADER_RANGE = `${SHEET_NAME}!A1:T1`
+const LEAD_LAST_COL = 'T'
 
 const COLUMNS: (keyof Lead)[] = [
-  'id',
-  'contactName',
-  'email',
-  'phone',
-  'company',
-  'serviceType',
-  'leadSource',
-  'assignedTo',
-  'status',
-  'region',
-  'notes',
-  'createdAt',
-  'dealValue',
-  'tags',
-  'followUpDate',
+  'id',                 // A
+  'contactName',        // B
+  'email',              // C
+  'phone',              // D
+  'company',            // E
+  'serviceType',        // F
+  'leadSource',         // G
+  'assignedTo',         // H
+  'status',             // I
+  'region',             // J
+  'notes',              // K
+  'createdAt',          // L
+  'dealValue',          // M
+  'tags',               // N
+  'followUpDate',       // O
+  'competitorKkday',    // P
+  'competitorKlook',    // Q
+  'competitorGyg',      // R
+  'competitorViator',   // S
+  'competitorAirbnb',   // T
 ]
 
 function spreadsheetId(): string {
@@ -138,13 +144,13 @@ export async function updateLead(
     if (rowNum === -1) return null
     const existing = await sheets.spreadsheets.values.get({
       spreadsheetId: spreadsheetId(),
-      range: `${SHEET_NAME}!A${rowNum}:O${rowNum}`,
+      range: `${SHEET_NAME}!A${rowNum}:${LEAD_LAST_COL}${rowNum}`,
     })
     const current = rowToLead(existing.data.values?.[0] ?? [])
     const merged: Lead = { ...current, ...patch, id }
     await sheets.spreadsheets.values.update({
       spreadsheetId: spreadsheetId(),
-      range: `${SHEET_NAME}!A${rowNum}:O${rowNum}`,
+      range: `${SHEET_NAME}!A${rowNum}:${LEAD_LAST_COL}${rowNum}`,
       valueInputOption: 'RAW',
       requestBody: { values: [leadToRow(merged)] },
     })
@@ -162,7 +168,7 @@ export async function deleteLead(id: string): Promise<boolean> {
     if (rowNum === -1) return false
     await sheets.spreadsheets.values.clear({
       spreadsheetId: spreadsheetId(),
-      range: `${SHEET_NAME}!A${rowNum}:O${rowNum}`,
+      range: `${SHEET_NAME}!A${rowNum}:${LEAD_LAST_COL}${rowNum}`,
     })
     return true
   } catch (err) {

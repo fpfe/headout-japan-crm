@@ -14,13 +14,18 @@ import EmailTemplates from './EmailTemplates'
 
 const HOT_STATUSES: LeadStatus[] = ['Negotiation', 'Proposal Sent']
 
-export default function MerchantProfile({ lead }: { lead: Lead }) {
+export default function MerchantProfile({ lead: initialLead }: { lead: Lead }) {
   const { toastError } = useToast()
-  const [status, setStatus] = useState<LeadStatus>(lead.status)
+  const [lead, setLead] = useState<Lead>(initialLead)
+  const [status, setStatus] = useState<LeadStatus>(initialLead.status)
   const [statusOpen, setStatusOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
   const [emailOpen, setEmailOpen] = useState(false)
+
+  const onLeadUpdate = (patch: Partial<Lead>) => {
+    setLead((l) => ({ ...l, ...patch }))
+  }
 
   const isHot = HOT_STATUSES.includes(status)
 
@@ -222,7 +227,11 @@ export default function MerchantProfile({ lead }: { lead: Lead }) {
       {/* Bento grid — Metadata + Documents left, Contacts + Interaction Log + Notes right */}
       <div className="grid grid-cols-12 gap-4 sm:gap-6">
         <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
-          <MetadataPanel lead={lead} onEdit={() => setEditOpen(true)} />
+          <MetadataPanel
+            lead={lead}
+            onEdit={() => setEditOpen(true)}
+            onLeadUpdate={onLeadUpdate}
+          />
           <DocumentStorage leadId={lead.id} />
         </div>
         <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">

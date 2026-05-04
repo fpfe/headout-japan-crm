@@ -44,6 +44,43 @@ type HistoryRow = {
   saved_as_lead_id: string | null
 }
 
+// Per-platform verdict: yes/no plus the activity Gemini matched on (evidence).
+type PlatformVerdict = {
+  listed: string | boolean | null
+  matched_activity?: string | null
+}
+
+type CompetitorListings = {
+  activities_found?: string[]
+  kkday?: PlatformVerdict | string | boolean | null
+  klook?: PlatformVerdict | string | boolean | null
+  gyg?: PlatformVerdict | string | boolean | null
+  viator?: PlatformVerdict | string | boolean | null
+  airbnb?: PlatformVerdict | string | boolean | null
+}
+
+function isListedRaw(v: unknown): boolean {
+  if (typeof v === 'boolean') return v
+  if (typeof v === 'string') {
+    const s = v.trim().toLowerCase()
+    if (!s) return false
+    return s === 'yes' || s === 'true' || s === 'listed'
+  }
+  return false
+}
+
+/** Read either an old-style scalar or new-style {listed, matched_activity} object. */
+function readPlatform(v: unknown): { listed: boolean; matched: string } {
+  if (v && typeof v === 'object' && !Array.isArray(v)) {
+    const obj = v as PlatformVerdict
+    return {
+      listed: isListedRaw(obj.listed),
+      matched: typeof obj.matched_activity === 'string' ? obj.matched_activity.trim() : '',
+    }
+  }
+  return { listed: isListedRaw(v), matched: '' }
+}
+
 type Brief = {
   activity_title: string
   companies: Company[]
@@ -57,6 +94,7 @@ type Brief = {
   score: number
   score_rationale: string
   next_action: string
+  competitor_listings?: CompetitorListings
 }
 
 const TIER_LABELS: Record<number, { label: string; color: string; bg: string }> = {
@@ -581,6 +619,14 @@ function BriefCard({
     setSaveError(null)
     setSaving(true)
     try {
+      const cl = brief.competitor_listings
+      // Persist "yes :: <matched activity>" when listed, empty when not.
+      // Any non-empty value is treated as listed by the UI.
+      const cell = (raw: unknown): string => {
+        const v = readPlatform(raw)
+        if (!v.listed) return ''
+        return v.matched ? `yes :: ${v.matched}` : 'yes'
+      }
       const payload = {
         contactName: '',
         email: '',
@@ -595,6 +641,11 @@ function BriefCard({
         dealValue: '',
         tags: buildTags(brief),
         followUpDate: '',
+        competitorKkday: cell(cl?.kkday),
+        competitorKlook: cell(cl?.klook),
+        competitorGyg: cell(cl?.gyg),
+        competitorViator: cell(cl?.viator),
+        competitorAirbnb: cell(cl?.airbnb),
       }
       const res = await fetch('/api/leads', {
         method: 'POST',
@@ -828,6 +879,10 @@ function BriefCard({
         {brief.reputation.recent_news && <p>{brief.reputation.recent_news}</p>}
       </Section>
 
+      <Section title="Competitor listings">
+        <CompetitorRow listings={brief.competitor_listings} />
+      </Section>
+
       <Section title="Next action">
         <div className="bg-[#fff5ef] border border-[#fde4d3] p-4 text-sm text-gray-800">
           {brief.next_action}
@@ -896,5 +951,87 @@ function Section({
       </h3>
       <div className="text-sm text-gray-800 leading-relaxed">{children}</div>
     </section>
+  )
+}
+
+const COMPETITOR_DISPLAY: { key: keyof CompetitorListings; label: string }[] = [
+  { key: 'kkday', label: 'KKday' },
+  { key: 'klook', label: 'Klook' },
+  { key: 'gyg', label: 'GetYourGuide' },
+  { key: 'viator', label: 'Viator' },
+  { key: 'airbnb', label: 'Airbnb' },
+]
+
+function CompetitorRow({ listings }: { listings?: CompetitorListings }) {
+  const activities = listings?.activities_found ?? []
+  return (
+    <div>
+      {activities.length > 0 && (
+        <div className="mb-2 text-[11px] text-gray-500">
+          <span className="font-semibold uppercase tracking-wider text-gray-600">
+            Activities found:
+          </span>{' '}
+          {activities.join(' · ')}
+        </div>
+      )}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+        {COMPETITOR_DISPLAY.map(({ key, label }) => {
+          const v = readPlatform(listings?.[key])
+          if (v.listed) {
+            return (
+              <div
+                key={key}
+                title={v.matched ? `Matched: ${v.matched}` : `${label} — listed`}
+                className="flex flex-col justify-between min-h-[78px] px-3 py-2.5 rounded-none bg-[#a83900] text-white"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <span className="text-[13px] font-extrabold tracking-tight uppercase leading-tight">
+                    {label}
+                  </span>
+                  <span
+                    className="material-symbols-outlined text-white shrink-0"
+                    style={{ fontSize: 16 }}
+                  >
+                    check_circle
+                  </span>
+                </div>
+                <div className="mt-1">
+                  <div className="text-[10px] uppercase font-semibold text-white/85 tracking-wider">
+                    Listed
+                  </div>
+                  {v.matched && (
+                    <div className="text-[10px] text-white/85 leading-snug mt-0.5 line-clamp-2">
+                      {v.matched}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )
+          }
+          return (
+            <div
+              key={key}
+              title={`${label} — not listed`}
+              className="flex flex-col justify-between min-h-[78px] px-3 py-2.5 rounded-none bg-white border border-gray-300"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <span className="text-[13px] font-bold tracking-tight uppercase leading-tight text-gray-400">
+                  {label}
+                </span>
+                <span
+                  className="material-symbols-outlined text-gray-300 shrink-0"
+                  style={{ fontSize: 16 }}
+                >
+                  remove
+                </span>
+              </div>
+              <div className="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mt-1">
+                Not listed
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }

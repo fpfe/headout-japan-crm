@@ -29,6 +29,12 @@ const NAV_GROUPS = [
     ],
   },
   {
+    labelKey: 'nav.intelligence',
+    items: [
+      { labelKey: 'nav.news', href: '/news', icon: 'newspaper' },
+    ],
+  },
+  {
     labelKey: 'nav.team',
     items: [
       { labelKey: 'nav.members', href: '/members', icon: 'person_add' },

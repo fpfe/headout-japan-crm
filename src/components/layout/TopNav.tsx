@@ -1,8 +1,11 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import { useCommandPalette } from '@/components/ui/CommandPalette'
 import { useI18n, LanguageToggle } from '@/lib/i18n'
+import { useViewingAs } from '@/lib/use-viewing-as'
+import type { Member } from '@/types'
 
 const TITLE_MAP: Record<string, string> = {
   '/dashboard': 'page.dashboard',
@@ -86,6 +89,7 @@ export default function TopNav({ onMenuToggle }: Props) {
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <ViewingAsPicker />
         <LanguageToggle />
         <button
           className="hidden sm:flex w-9 h-9 items-center justify-center text-[#6B7280] hover:text-[#181C23] transition-colors"
@@ -112,5 +116,91 @@ export default function TopNav({ onMenuToggle }: Props) {
         </div>
       </div>
     </header>
+  )
+}
+
+/** Small dropdown that lets the user pick which team member they
+ *  currently identify as. Persists to localStorage via useViewingAs.
+ *  Backbone for "My Leads" filter and (future) per-user views.
+ */
+function ViewingAsPicker() {
+  const { name, setName } = useViewingAs()
+  const [open, setOpen] = useState(false)
+  const [members, setMembers] = useState<Member[]>([])
+  const [loaded, setLoaded] = useState(false)
+  const ref = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (loaded) return
+    fetch('/api/members')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((rows: unknown) => {
+        if (Array.isArray(rows)) setMembers(rows as Member[])
+        setLoaded(true)
+      })
+      .catch(() => setLoaded(true))
+  }, [loaded])
+
+  useEffect(() => {
+    if (!open) return
+    function onDoc(e: MouseEvent) {
+      if (!ref.current) return
+      if (!ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', onDoc)
+    return () => document.removeEventListener('mousedown', onDoc)
+  }, [open])
+
+  const options = (() => {
+    const names = new Set<string>(members.map((m) => m.name).filter(Boolean))
+    if (name) names.add(name)
+    return Array.from(names).sort()
+  })()
+
+  return (
+    <div ref={ref} className="hidden sm:block relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        title="Change which team member you're viewing the app as"
+        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-none text-[11px] font-bold uppercase border border-gray-200 hover:border-[#a83900] hover:text-[#a83900] text-gray-600 transition-colors"
+        style={{ letterSpacing: '0.1em' }}
+      >
+        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>person</span>
+        <span className="text-[11px] font-semibold normal-case tracking-normal text-[#181c23]">
+          {name}
+        </span>
+        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>expand_more</span>
+      </button>
+      {open && (
+        <div
+          className="absolute right-0 top-full mt-1 z-30 min-w-[200px] bg-white rounded-none py-1 border border-gray-200"
+          style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
+        >
+          <div className="px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider text-gray-500 border-b border-gray-100">
+            Viewing as
+          </div>
+          {options.length === 0 ? (
+            <div className="px-3 py-2 text-[12px] text-gray-400">No team members</div>
+          ) : (
+            options.map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => {
+                  setName(n)
+                  setOpen(false)
+                }}
+                className={`w-full text-left px-3 py-1.5 text-[12px] hover:bg-[#f5f0e8] transition-colors ${
+                  n === name ? 'font-bold text-[#a83900]' : 'text-[#181c23]'
+                }`}
+              >
+                {n}
+              </button>
+            ))
+          )}
+        </div>
+      )}
+    </div>
   )
 }

@@ -30,6 +30,13 @@ TASKS (use web search):
         → Universal appeal, not Japan-specific differentiator
    Include score_rationale mentioning both the base assessment and the market demand tier.
 6. next_action: 1-2 sentences, blunt.
+7. Competitor listings — match by ACTIVITY + LOCATION (OTAs list activities, not operator names). Use this 4-step process:
+   STEP 1 — From the operator's homepage and/or web search, identify 2–5 specific activities/products they sell with location (e.g., "teamLab Planets Tokyo Tickets, Toyosu").
+   STEP 2 — For each platform (KKday/Klook/GYG/Viator/Airbnb), search Google for product pages matching those activities scoped to that platform's domain.
+   STEP 3 — Mark "yes" only if you find a product page whose title or snippet clearly matches one of the activities AND location. Otherwise "no".
+   STEP 4 — Return per platform: { listed: "yes"|"no", matched_activity: <short activity name that matched, or empty string when "no"> }.
+   Strict rules: DEFAULT TO "no" when uncertain. Never invent activity names. Never invent URLs or IDs. Never extrapolate from URL patterns.
+   Platforms: KKday (kkday.com), Klook (klook.com), GetYourGuide (getyourguide.com), Viator (viator.com), Airbnb Experiences (airbnb.com/experiences).
 
 SCHEMA:
 {
@@ -56,7 +63,15 @@ SCHEMA:
   "market_demand_tier": number,
   "score": number,
   "score_rationale": string,
-  "next_action": string
+  "next_action": string,
+  "competitor_listings": {
+    "activities_found": [string, ...],
+    "kkday":  { "listed": "yes" | "no", "matched_activity": string },
+    "klook":  { "listed": "yes" | "no", "matched_activity": string },
+    "gyg":    { "listed": "yes" | "no", "matched_activity": string },
+    "viator": { "listed": "yes" | "no", "matched_activity": string },
+    "airbnb": { "listed": "yes" | "no", "matched_activity": string }
+  }
 }
 
 TONE: blunt, partnership-analyst. No fluff. No emojis.

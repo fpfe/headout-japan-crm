@@ -27,7 +27,24 @@ export type Lead = {
   dealValue: string
   tags: string
   followUpDate: string
+  // Competitor listings (column P–T). Stores the listing URL when listed,
+  // empty string when not. Populated by Deep Search.
+  competitorKkday: string      // P
+  competitorKlook: string      // Q
+  competitorGyg: string        // R
+  competitorViator: string     // S
+  competitorAirbnb: string     // T
 }
+
+export const COMPETITOR_PLATFORMS = [
+  { key: 'competitorKkday', label: 'KKday' },
+  { key: 'competitorKlook', label: 'Klook' },
+  { key: 'competitorGyg', label: 'GetYourGuide' },
+  { key: 'competitorViator', label: 'Viator' },
+  { key: 'competitorAirbnb', label: 'Airbnb' },
+] as const
+
+export type CompetitorPlatformKey = (typeof COMPETITOR_PLATFORMS)[number]['key']
 
 export const LEAD_STATUSES: LeadStatus[] = [
   'New',

@@ -45,6 +45,11 @@ export async function POST(request: NextRequest) {
       'leadSource',
       'region',
       'dealValue',
+      'competitorKkday',
+      'competitorKlook',
+      'competitorGyg',
+      'competitorViator',
+      'competitorAirbnb',
     ]
 
     const patch: Partial<Lead> = {}

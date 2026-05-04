@@ -1,6 +1,7 @@
 'use client'
 
 import type { Lead } from '@/types'
+import CompetitorBadges from './CompetitorBadges'
 
 function formatCreated(s: string): string {
   if (!s) return '—'
@@ -13,7 +14,15 @@ function formatCreated(s: string): string {
   })
 }
 
-export default function MetadataPanel({ lead, onEdit }: { lead: Lead; onEdit?: () => void }) {
+export default function MetadataPanel({
+  lead,
+  onEdit,
+  onLeadUpdate,
+}: {
+  lead: Lead
+  onEdit?: () => void
+  onLeadUpdate?: (patch: Partial<Lead>) => void
+}) {
   const channels = lead.leadSource
     ? lead.leadSource.split(',').map((s) => s.trim()).filter(Boolean)
     : []
@@ -78,6 +87,11 @@ export default function MetadataPanel({ lead, onEdit }: { lead: Lead; onEdit?: (
             )}
           </div>
         </div>
+      </div>
+
+      {/* Competitor Listings — full width below the 2-col top */}
+      <div className="mt-6 pt-5" style={{ borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+        <CompetitorBadges lead={lead} onLeadUpdate={onLeadUpdate} />
       </div>
 
       {/* Research Notes — full width below */}
